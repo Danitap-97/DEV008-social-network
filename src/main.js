@@ -1,5 +1,13 @@
-// Este es el punto de entrada de tu aplicacion
+import { Home } from './components/Home.js';
+import { Register } from './components/Register.js';
+import { Login } from './components/Login.js';
 
-import { myFunction } from './lib/index.js';
+const rootDiv = document.getElementById('root');
 
-myFunction();
+const routes = {
+  '/': Home,
+  '/register': Register,
+  '/login': Login,
+};
+const component = routes[window.location.pathname];
+rootDiv.appendChild(component());
