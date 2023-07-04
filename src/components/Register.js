@@ -6,16 +6,38 @@ export const Register = (onNavigate) => {
   buttonHome.addEventListener('click', () => onNavigate('/'));
   HomeDiv.appendChild(buttonHome);
 
-  const section = document.createElement("section");
-  section.classList.add("form-registers");
-  const titulo = document.createElement("h4");
-  titulo.textContent = "Formulario Registro";
-  const nombres = document.createElement("input");
-  nombres.classList.add("controls");
-  nombres.placeholder = "Ingresar su Nombre";
+  const section = document.createElement('section');
+  section.classList.add('form-registers');
+  const titulo = document.createElement('h4');
+  titulo.textContent = 'Formulario Registro';
+  const nombres = document.createElement('input');
+  nombres.classList.add('controls');
+  nombres.placeholder = 'Ingresar su Nombre';
   section.appendChild(titulo);
   section.appendChild(nombres);
+
+  const email = document.createElement('input');
+  email.classList.add('controls');
+  email.placeholder = 'Ingresar correo';
+  section.appendChild(email);
+
+  const password = document.createElement('input');
+  email.classList.add('controls');
+  email.placeholder = 'Ingresa Contraseña';
+  section.appendChild(password);
+
+  const terminosYcondiciones = document.createElement('p');
+  terminosYcondiciones.textContent = 'Estoy de acuerdo con';
+  terminosYcondiciones.textContent = 'Terminos y condiciones';
+
+  const enviarFormulario = document.createElement('input');
+  email.classList.add('botons');
+  email.value = 'Registrar';
+  section.appendChild(enviarFormulario);
   HomeDiv.appendChild(section);
+
+  const cuenta = document.createElement('p');
+  cuenta.textContent = '¿ya tengo cuenta?';
   return HomeDiv;
 };
    /* <div>

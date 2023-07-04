@@ -1,4 +1,4 @@
-import { Home } from './components/Home.js';
+import { Home } from './components/Home';
 import { Register } from './components/Register.js';
 import { Login } from './components/Login.js';
 
