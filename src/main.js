@@ -1,6 +1,7 @@
 import { Home } from './components/Home.js';
 import { Register } from './components/Register.js';
 import { Login } from './components/Login.js';
+import { Landing } from './components/Landing.js';
 
 const rootDiv = document.getElementById('root');
 
@@ -8,6 +9,7 @@ const routes = {
   '/': Home,
   '/register': Register,
   '/login': Login,
+  '/landing': Landing,
 };
 
 export const onNavigate = (pathname) => {

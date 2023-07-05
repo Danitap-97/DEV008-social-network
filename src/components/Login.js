@@ -1,18 +1,22 @@
 export const Login = (onNavigate) => {
   const loginDiv = document.createElement('div');
+  loginDiv.classList.add('form-register');
   loginDiv.textContent = 'Bienvenido a la página de inicio de sesión';
 
   const emailInput = document.createElement('input');
+  emailInput.classList.add('controls');
   emailInput.type = 'email';
   emailInput.placeholder = 'Correo electrónico';
   loginDiv.appendChild(emailInput);
 
   const passwordInput = document.createElement('input');
+  passwordInput.classList.add('controls');
   passwordInput.type = 'password';
   passwordInput.placeholder = 'Contraseña';
   loginDiv.appendChild(passwordInput);
 
   const loginButton = document.createElement('button');
+  loginButton.classList.add('controls');
   loginButton.textContent = 'Iniciar sesión';
   loginButton.addEventListener('click', () => {
     // Aquí puedes realizar la lógica de autenticación y redireccionamiento
@@ -22,6 +26,7 @@ export const Login = (onNavigate) => {
   loginDiv.appendChild(loginButton);
 
   const backHomeButton = document.createElement('button');
+  backHomeButton.classList.add('controls');
   backHomeButton.textContent = 'Regresar al Home';
   backHomeButton.addEventListener('click', () => onNavigate('/'));
   loginDiv.appendChild(backHomeButton);

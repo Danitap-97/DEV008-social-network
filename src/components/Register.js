@@ -36,6 +36,7 @@ export const Register = (onNavigate) => {
   section.appendChild(registrado);
 
   const buttonRegister = document.createElement('button');
+  buttonRegister.classList.add('controls');
   buttonRegister.textContent = 'Registrarse';
   buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();
