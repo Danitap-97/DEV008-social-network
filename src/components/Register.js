@@ -53,4 +53,3 @@ export const Register = (onNavigate) => {
    </section>
  </div>
 );*/
-

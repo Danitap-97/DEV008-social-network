@@ -1,4 +1,4 @@
-import { Home } from './components/Home';
+import { Home } from './components/Home.js';
 import { Register } from './components/Register.js';
 import { Login } from './components/Login.js';
 
@@ -19,7 +19,7 @@ export const onNavigate = (pathname) => {
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
   }
-  rootDiv.appendChild(routes[pathname]());
+  rootDiv.appendChild(routes[pathname](onNavigate));
 };
 const component = routes[window.location.pathname];
 window.onpopstate = () => {
