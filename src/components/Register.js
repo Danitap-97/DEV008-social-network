@@ -37,6 +37,20 @@ export const Register = (onNavigate) => {
 
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Registrarse';
+  buttonRegister.addEventListener('click', (e) => {
+    e.preventDefault();
+    const nombreValue = nombres.value;
+    const correoValue = correo.value;
+    const passwordValue = password.value;
+    if (nombreValue && correoValue && passwordValue) {
+      onNavigate('/login');
+    } else {
+      const errorElement = document.createElement('p');
+      errorElement.textContent = 'Por favor, complete todos los campos';
+      errorElement.style.color = 'red';
+      section.appendChild(errorElement);
+    }
+  });
   section.appendChild(buttonRegister);
 
   HomeDiv.appendChild(section);
