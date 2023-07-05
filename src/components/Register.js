@@ -23,6 +23,7 @@ export const Register = (onNavigate) => {
 
   const password = document.createElement('input');
   password.classList.add('controls');
+  password.type = 'password';
   password.placeholder = 'Ingresa Contraseña';
   section.appendChild(password);
 
