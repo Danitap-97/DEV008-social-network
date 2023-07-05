@@ -7,7 +7,7 @@ export const Register = (onNavigate) => {
   HomeDiv.appendChild(buttonHome);
 
   const section = document.createElement('section');
-  section.classList.add('form-registers');
+  section.classList.add('form-register');
   const titulo = document.createElement('h4');
   titulo.textContent = 'Formulario Registro';
   const nombres = document.createElement('input');
