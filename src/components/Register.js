@@ -16,41 +16,29 @@ export const Register = (onNavigate) => {
   section.appendChild(titulo);
   section.appendChild(nombres);
 
-  const email = document.createElement('input');
-  email.classList.add('controls');
-  email.placeholder = 'Ingresar correo';
-  section.appendChild(email);
+  const correo = document.createElement('input');
+  correo.classList.add('controls');
+  correo.placeholder = 'Ingresar correo';
+  section.appendChild(correo);
 
   const password = document.createElement('input');
-  email.classList.add('controls');
-  email.placeholder = 'Ingresa Contraseña';
+  password.classList.add('controls');
+  password.placeholder = 'Ingresa Contraseña';
   section.appendChild(password);
 
-  const terminosYcondiciones = document.createElement('p');
-  terminosYcondiciones.textContent = 'Estoy de acuerdo con';
-  terminosYcondiciones.textContent = 'Terminos y condiciones';
+  const terminos = document.createElement('p');
+  terminos.textContent = 'Acepto los términos y condiciones';
+  section.appendChild(terminos);
 
-  const enviarFormulario = document.createElement('input');
-  email.classList.add('botons');
-  email.value = 'Registrar';
-  section.appendChild(enviarFormulario);
+  const registrado = document.createElement('p');
+  registrado.textContent = '¿Ya estás registrado?';
+  section.appendChild(registrado);
+
+  const buttonRegister = document.createElement('button');
+  buttonRegister.textContent = 'Registrarse';
+  section.appendChild(buttonRegister);
+
   HomeDiv.appendChild(section);
 
-  const cuenta = document.createElement('p');
-  cuenta.textContent = '¿ya tengo cuenta?';
   return HomeDiv;
 };
-   /* <div>
-   {HomeDiv}
-   <section className="form-registers">
-     <h4>Formulario Registro</h4>
-     <input className="controls" type="text" name="nombres" id="nombres" placeholder="Ingresar su Nombre" />
-     <input className="controls" type="email" name="nombres" id="nombres" placeholder="Ingresar Correo" />
-     <input className="controls" type="password" name="nombres" id="nombres" placeholder="Ingresar Contraseña" />
-     <p>Estoy de acuerdo con<a href="#">Terminos y Condiciones</a></p>
-     <input className="botons" type="submit" value="registrar" />
-     <p><a href="#">¿Ya Tengo Cuenta?</a></p>
-   </section>
- </div>
-);*/
-
