@@ -23,6 +23,7 @@ export const Register = (onNavigate) => {
 
   const password = document.createElement('input');
   password.classList.add('controls');
+  password.type = 'password';
   password.placeholder = 'Ingresa Contraseña';
   section.appendChild(password);
 
@@ -36,6 +37,21 @@ export const Register = (onNavigate) => {
 
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Registrarse';
+  buttonRegister.addEventListener('click', () => {
+    // Aquí puedes realizar la lógica de autenticación y redireccionamiento
+    // a la página correspondiente después de iniciar sesión
+    const nombreValue = nombres.value;
+    const correoValue = correo.value;
+    const passwordValue = password.value;
+    if (nombreValue && correoValue && passwordValue) {
+      onNavigate('/login');
+    } else {
+      const errorElement = document.createElement('p');
+      errorElement.textContent = 'Por favor, complete todos los campos';
+      errorElement.style.color = 'red';
+      section.appendChild(errorElement);
+    }
+  });
   section.appendChild(buttonRegister);
 
   HomeDiv.appendChild(section);
