@@ -37,9 +37,8 @@ export const Register = (onNavigate) => {
 
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Registrarse';
-  buttonRegister.addEventListener('click', () => {
-    // Aquí puedes realizar la lógica de autenticación y redireccionamiento
-    // a la página correspondiente después de iniciar sesión
+  buttonRegister.addEventListener('click', (e) => {
+    e.preventDefault();
     const nombreValue = nombres.value;
     const correoValue = correo.value;
     const passwordValue = password.value;
