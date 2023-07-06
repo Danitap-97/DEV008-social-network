@@ -1,3 +1,5 @@
+import { registrarUsuario } from "../lib/firebase";
+
 export const Register = (onNavigate) => {
   const HomeDiv = document.createElement('div');
   HomeDiv.textContent = 'Bienvenida al registro';
@@ -38,13 +40,24 @@ export const Register = (onNavigate) => {
   const buttonRegister = document.createElement('button');
   buttonRegister.classList.add('controls');
   buttonRegister.textContent = 'Registrarse';
-  buttonRegister.addEventListener('click', (e) => {
-    e.preventDefault();
+  buttonRegister.addEventListener('click', () => {
     const nombreValue = nombres.value;
     const correoValue = correo.value;
     const passwordValue = password.value;
     if (nombreValue && correoValue && passwordValue) {
-      onNavigate('/login');
+      registrarUsuario(correoValue, passwordValue)
+        .then(function(respuestaDeFirebase) {
+          console.log("fuction",function, respuestaDeFirebase)
+          const registroExitoso = document.createElement('p');
+          registroExitoso.textContent = 'Registro Exitoso';
+          registroExitoso.style.color = 'black';
+          onNavigate('/login');
+        }).catch(function(error){
+          const errorRegistro = document.createElement('p');
+          errorRegistro.textContent = 'Oh Error';
+          errorRegistro.style.color = 'red';
+        })
+      
     } else {
       const errorElement = document.createElement('p');
       errorElement.textContent = 'Por favor, complete todos los campos';

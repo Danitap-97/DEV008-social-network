@@ -19,10 +19,18 @@ export const Login = (onNavigate) => {
   loginButton.classList.add('controls');
   loginButton.textContent = 'Iniciar sesión';
   loginButton.addEventListener('click', () => {
-    // Aquí puedes realizar la lógica de autenticación y redireccionamiento
-    // a la página correspondiente después de iniciar sesión
-
+    const correoUsuario = emailInput.value;
+    const passworUsuario = passwordInput.value;
+    if (correoUsuario && passworUsuario) {
+      onNavigate('/landing');
+    } else {
+      const errorInicio = document.createElement('p');
+      errorInicio.textContent = 'Por favor, complete todos los campos';
+      errorInicio.style.color = 'red';
+      loginDiv.appendChild(errorInicio);
+    }
   });
+
   loginDiv.appendChild(loginButton);
 
   const backHomeButton = document.createElement('button');
