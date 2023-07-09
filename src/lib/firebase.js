@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 // TODO: Replace the following with your app's Firebase project configuration
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyATBUTgJTxigajaUl_JKQI5OUkFigfNOpM',
   authDomain: 'social-network-e2319.firebaseapp.com',
   projectId: 'social-network-e2319',
@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 export function registrarUsuario(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
-}
+};

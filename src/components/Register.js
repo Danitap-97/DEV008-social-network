@@ -1,4 +1,5 @@
-import { registrarUsuario } from "../lib/firebase";
+import { registrarUsuario } from '../lib/firebase';
+import { loginGoogle } from '../lib/auth';
 
 export const Register = (onNavigate) => {
   const HomeDiv = document.createElement('div');
@@ -40,14 +41,21 @@ export const Register = (onNavigate) => {
   const buttonRegister = document.createElement('button');
   buttonRegister.classList.add('controls');
   buttonRegister.textContent = 'Registrarse';
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.setAttribute('id', 'google-signin-button');
+  buttonGoogle.addEventListener('click', loginGoogle);
+  buttonGoogle.textContent = 'iniciar sesión con Google';
+  // const container = document.getElementById('container');
+  section.appendChild(buttonGoogle);
   buttonRegister.addEventListener('click', () => {
     const nombreValue = nombres.value;
     const correoValue = correo.value;
     const passwordValue = password.value;
     if (nombreValue && correoValue && passwordValue) {
       registrarUsuario(correoValue, passwordValue)
-        .then(function(respuestaDeFirebase) {
-          console.log("fuction",function, respuestaDeFirebase)
+        .then((value) => {
+          console.log("value", value);
+          // .then(function(respuestaDeFirebase) {
           const registroExitoso = document.createElement('p');
           registroExitoso.textContent = 'Registro Exitoso';
           registroExitoso.style.color = 'black';
@@ -56,8 +64,7 @@ export const Register = (onNavigate) => {
           const errorRegistro = document.createElement('p');
           errorRegistro.textContent = 'Oh Error';
           errorRegistro.style.color = 'red';
-        })
-      
+        });
     } else {
       const errorElement = document.createElement('p');
       errorElement.textContent = 'Por favor, complete todos los campos';
