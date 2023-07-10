@@ -40,31 +40,42 @@ export const Register = (onNavigate) => {
   const buttonRegister = document.createElement('button');
   buttonRegister.classList.add('controls');
   buttonRegister.textContent = 'Registrarse';
-  buttonRegister.addEventListener('click', () => {
+  buttonRegister.addEventListener('click', ()  => {
     const nombreValue = nombres.value;
     const correoValue = correo.value;
     const passwordValue = password.value;
-    if (nombreValue && correoValue && passwordValue) {
-      registrarUsuario(correoValue, passwordValue)
-        .then(function(respuestaDeFirebase) {
-          console.log("fuction",function, respuestaDeFirebase)
-          const registroExitoso = document.createElement('p');
-          registroExitoso.textContent = 'Registro Exitoso';
-          registroExitoso.style.color = 'black';
-          onNavigate('/login');
-        }).catch(function(error){
-          const errorRegistro = document.createElement('p');
-          errorRegistro.textContent = 'Oh Error';
-          errorRegistro.style.color = 'red';
-        })
-      
-    } else {
-      const errorElement = document.createElement('p');
-      errorElement.textContent = 'Por favor, complete todos los campos';
-      errorElement.style.color = 'red';
-      section.appendChild(errorElement);
-    }
-  });
+    
+        if (nombreValue && correoValue && passwordValue) {
+          registrarUsuario(correoValue, passwordValue)
+            .then(function(respuestaDeFirebase) {
+              const registroExitoso = document.createElement('p');
+              registroExitoso.textContent = 'Registro Exitoso';
+              registroExitoso.style.color = 'black';
+              onNavigate('/login');
+        
+              // Agrega el elemento de registro exitoso al DOM
+              const container = document.getElementById('container'); // Reemplaza "container" con el ID del elemento contenedor en tu HTML
+              container.appendChild(registroExitoso, respuestaDeFirebase);
+            })
+            .catch(function(error) {
+              const errorRegistro = document.createElement('p');
+              errorRegistro.textContent = 'Oh Error';
+              errorRegistro.style.color = 'red';
+        
+              // Agrega el elemento de error de registro al DOM
+              var container = document.getElementById("container"); // Reemplaza "container" con el ID del elemento contenedor en tu HTML
+              container.appendChild(errorRegistro, error);
+            });
+        }
+    }); else {
+  const errorElement = document.createElement('p');
+  errorElement.textContent = 'Por favor, complete todos los campos';
+  errorElement.style.color = 'red';
+
+  // Agrega el elemento de error al contenedor en tu HTML
+  const section = document.getElementById("section"); // Reemplaza "section" con el ID del contenedor en tu HTML
+  section.appendChild(errorElement);
+}
   section.appendChild(buttonRegister);
 
   HomeDiv.appendChild(section);
