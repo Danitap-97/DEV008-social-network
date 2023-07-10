@@ -60,8 +60,8 @@ export const Register = (onNavigate) => {
           registroExitoso.textContent = 'Registro Exitoso';
           registroExitoso.style.color = 'black';
           onNavigate('/login');
-        });
-         .catch(() => {
+        })
+        .catch(() => {
           const errorRegistro = document.createElement('p');
           errorRegistro.textContent = 'Oh Error';
           errorRegistro.style.color = 'red';
