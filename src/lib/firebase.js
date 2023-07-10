@@ -18,4 +18,4 @@ export const auth = getAuth(app);
 
 export function registrarUsuario(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
-};
+}
