@@ -1,13 +1,10 @@
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { GoogleAuthProvider } from "firebase/auth";
-import { signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from './firebase';
 
 // const auth = getAuth(firebaseConfig);
 const provider = new GoogleAuthProvider();
-export function loginGoogle (){
- return signInWithPopup(auth, provider)
-
+export function loginGoogle() {
+  return signInWithPopup(auth, provider);
 }
 
 const email = 'ejemplo@correo.com';
