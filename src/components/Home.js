@@ -4,8 +4,11 @@ export const Home = (onNavigate) => {
   const buttonLogin = document.createElement('button');
 
   buttonRegister.textContent = 'Registrate';
-  buttonLogin.textContent = 'Inicia sesion';
   buttonRegister.addEventListener('click', () => onNavigate('/register'));
+  const registrado = document.createElement('p');
+  registrado.textContent = '¿Ya estás registrado?';
+  HomeDiv.appendChild(registrado);
+  buttonLogin.textContent = 'Inicia sesion';
   buttonLogin.addEventListener('click', () => onNavigate('/login'));
 
   HomeDiv.appendChild(buttonRegister);
