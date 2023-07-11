@@ -54,13 +54,13 @@ export const Register = (onNavigate) => {
     if (nombreValue && correoValue && passwordValue) {
       registrarUsuario(correoValue, passwordValue)
         .then((value) => {
-          console.log("value", value);
+          console.log('value', value);
           // .then(function(respuestaDeFirebase) {
           const registroExitoso = document.createElement('p');
           registroExitoso.textContent = 'Registro Exitoso';
           registroExitoso.style.color = 'black';
           onNavigate('/login');
-        }).catch(function(error){
+        }).catch(() => {
           const errorRegistro = document.createElement('p');
           errorRegistro.textContent = 'Oh Error';
           errorRegistro.style.color = 'red';
