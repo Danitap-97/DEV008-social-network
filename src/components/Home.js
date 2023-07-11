@@ -1,7 +1,13 @@
 export const Home = (onNavigate) => {
-  const HomeDiv = document.createElement('div');
+  const homeDiv = document.createElement('div');
+  const section = document.createElement('section');
+  section.classList.add('section-home');
+  const navHome = document.createElement('navHome');
+  navHome.classList.add('nav-home');
   const buttonRegister = document.createElement('button');
+  buttonRegister.classList.add('button-register');
   const buttonLogin = document.createElement('button');
+  buttonLogin.classList.add('button-login');
 
   buttonRegister.textContent = 'Registrate';
   buttonRegister.addEventListener('click', () => onNavigate('/register'));
@@ -11,7 +17,9 @@ export const Home = (onNavigate) => {
   buttonLogin.textContent = 'Inicia sesion';
   buttonLogin.addEventListener('click', () => onNavigate('/login'));
 
-  HomeDiv.appendChild(buttonRegister);
-  HomeDiv.appendChild(buttonLogin);
-  return HomeDiv;
+  homeDiv.appendChild(section);
+  section.appendChild(navHome);
+  navHome.appendChild(buttonRegister);
+  navHome.appendChild(buttonLogin);
+  return homeDiv;
 };
