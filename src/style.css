@@ -14,7 +14,7 @@ body{
     margin-top: 100px;
     border-radius: 4px;
     font-family: sans-serif;
-    color: white;
+    color: rgb(14, 14, 14);
     box-shadow: 7px 13px 37px #535250b6;
 }
 .form-register h4{
@@ -25,7 +25,7 @@ body{
     width: 100%;
     background: #f6d3ad;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 16px;
     border: 1px solid #f4a654;
     font-family: sans-serif;
@@ -50,4 +50,29 @@ line-height: 40px;
     margin: 16px 0;
     font-size: 16px;
 }
-   
+.icono-google {
+    margin-right: 8px;
+    height:20px;
+    width: 20px;
+}
+#google-signin-button {
+    width: 100%;
+ display: flex;
+ justify-content: center;
+margin-bottom: 10px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  color: #757575;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#google-signin-button:hover{
+    background: #fabe7e;
+    
+}
+
