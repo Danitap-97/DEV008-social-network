@@ -38,13 +38,8 @@ body {
   line-height: 40px;
 }
 .form-register a:hover {
-<<<<<<< HEAD
     color:#fabe7e;
     text-decoration: underline;
-=======
-  color: white;
-  text-decoration: underline;
->>>>>>> 4ad2634955de65b6dfb6113e8e63cac6be88cc28
 }
 .form-register botons {
   width: 100%;
