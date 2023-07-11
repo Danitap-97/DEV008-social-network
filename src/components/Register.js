@@ -71,7 +71,11 @@ export const Register = (onNavigate) => {
 
   const buttonGoogle = document.createElement('button');
   buttonGoogle.setAttribute('id', 'google-signin-button');
-  buttonGoogle.addEventListener('click', loginGoogle);
+  buttonGoogle.addEventListener('click', () => {
+    loginGoogle().then(() => {
+      onNavigate('/landing');
+    });
+  });
   buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
   section.appendChild(buttonGoogle);
   HomeDiv.appendChild(section);
