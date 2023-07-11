@@ -12,16 +12,16 @@ export const Register = (onNavigate) => {
   const section = document.createElement('section');
   section.classList.add('form-register');
   const titulo = document.createElement('h4');
-  titulo.textContent = 'Formulario Registro';
+  titulo.textContent = 'Formulario de Registro';
   const nombres = document.createElement('input');
   nombres.classList.add('controls');
-  nombres.placeholder = 'Ingresar su Nombre';
+  nombres.placeholder = 'Ingresa su Nombre';
   section.appendChild(titulo);
   section.appendChild(nombres);
 
   const correo = document.createElement('input');
   correo.classList.add('controls');
-  correo.placeholder = 'Ingresar correo';
+  correo.placeholder = 'Ingresa correo';
   section.appendChild(correo);
 
   const password = document.createElement('input');
@@ -41,12 +41,6 @@ export const Register = (onNavigate) => {
   const buttonRegister = document.createElement('button');
   buttonRegister.classList.add('controls');
   buttonRegister.textContent = 'Registrarse';
-  const buttonGoogle = document.createElement('button');
-  buttonGoogle.setAttribute('id', 'google-signin-button');
-  buttonGoogle.addEventListener('click', loginGoogle);
-  buttonGoogle.textContent = 'iniciar sesión con Google';
-  // const container = document.getElementById('container');
-  section.appendChild(buttonGoogle);
   buttonRegister.addEventListener('click', () => {
     const nombreValue = nombres.value;
     const correoValue = correo.value;
@@ -54,16 +48,17 @@ export const Register = (onNavigate) => {
     if (nombreValue && correoValue && passwordValue) {
       registrarUsuario(correoValue, passwordValue)
         .then((value) => {
-          console.log('value', value);
-          // .then(function(respuestaDeFirebase) {
+          console.log(value);
           const registroExitoso = document.createElement('p');
           registroExitoso.textContent = 'Registro Exitoso';
           registroExitoso.style.color = 'black';
           onNavigate('/login');
-        }).catch(() => {
+        })
+        .catch(() => {
           const errorRegistro = document.createElement('p');
           errorRegistro.textContent = 'Oh Error';
           errorRegistro.style.color = 'red';
+          section.appendChild(errorRegistro);
         });
     } else {
       const errorElement = document.createElement('p');
@@ -74,6 +69,15 @@ export const Register = (onNavigate) => {
   });
   section.appendChild(buttonRegister);
 
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.setAttribute('id', 'google-signin-button');
+  buttonGoogle.addEventListener('click', () => {
+    loginGoogle().then(() => {
+      onNavigate('/landing');
+    });
+  });
+  buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
+  section.appendChild(buttonGoogle);
   HomeDiv.appendChild(section);
 
   return HomeDiv;

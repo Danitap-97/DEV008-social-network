@@ -1,3 +1,5 @@
+import { loginGoogle } from '../lib/auth';
+
 export const Login = (onNavigate) => {
   const loginDiv = document.createElement('div');
   loginDiv.classList.add('form-register');
@@ -30,8 +32,17 @@ export const Login = (onNavigate) => {
       loginDiv.appendChild(errorInicio);
     }
   });
-
   loginDiv.appendChild(loginButton);
+
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.setAttribute('id', 'google-signin-button');
+  buttonGoogle.addEventListener('click', () => {
+    loginGoogle().then(() => {
+      onNavigate('/landing');
+    });
+  });
+  buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
+  loginDiv.appendChild(buttonGoogle);
 
   const backHomeButton = document.createElement('button');
   backHomeButton.classList.add('controls');
