@@ -12,16 +12,20 @@ export const Register = (onNavigate) => {
   nombres.placeholder = 'Ingresa su Nombre';
   section.appendChild(titulo);
   section.appendChild(nombres);
+  nombres.addEventListener('input', () => {
+    nombres.value = nombres.value.replace(/[0-9]/g, '');
+    nombres.value = nombres.value.replace(/^[A-Z]+$/);
+  });
 
   const correo = document.createElement('input');
   correo.classList.add('controls');
   correo.placeholder = 'Ingresa correo';
   section.appendChild(correo);
-
   const password = document.createElement('input');
   password.classList.add('controls');
   password.type = 'password';
   password.placeholder = 'Ingresa Contraseña';
+  password.setAttribute('maxlength', '16');
   section.appendChild(password);
 
   const terminos = document.createElement('p');
@@ -70,7 +74,8 @@ export const Register = (onNavigate) => {
       onNavigate('/landing');
     });
   });
-  buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
+  buttonGoogle.innerHTML =
+    '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
   section.appendChild(buttonGoogle);
 
   const buttonHome = document.createElement('button');

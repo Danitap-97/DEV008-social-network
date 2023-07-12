@@ -17,6 +17,8 @@ export const Login = (onNavigate) => {
   passwordInput.classList.add('controls');
   passwordInput.type = 'password';
   passwordInput.placeholder = 'Contraseña';
+  passwordInput.setAttribute('maxlength', '16');
+  loginDiv.appendChild(passwordInput);
   loginDiv.appendChild(passwordInput);
 
   const loginButton = document.createElement('button');
