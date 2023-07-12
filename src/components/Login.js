@@ -3,7 +3,9 @@ import { loginGoogle } from '../lib/auth';
 export const Login = (onNavigate) => {
   const loginDiv = document.createElement('div');
   loginDiv.classList.add('form-register');
-  loginDiv.textContent = 'Bienvenido a la página de inicio de sesión';
+  const titulo = document.createElement('h4');
+  titulo.textContent = 'Bienvenid@ a la página de inicio sesión';
+  loginDiv.appendChild(titulo);
 
   const emailInput = document.createElement('input');
   emailInput.classList.add('controls');

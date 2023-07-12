@@ -23,8 +23,10 @@ export const Home = (onNavigate) => {
   footerHome.textContent = 'Copyright © 2023 Traveling Friends, Inc. All rights reserved.';
 
   buttonRegister.textContent = 'Registrate';
-  buttonLogin.textContent = 'Inicia sesion';
   buttonRegister.addEventListener('click', () => onNavigate('/register'));
+  const registrado = document.createElement('p');
+  registrado.textContent = '¿Ya estás registrado?';
+  buttonLogin.textContent = 'Inicia sesion';
   buttonLogin.addEventListener('click', () => onNavigate('/login'));
 
   homeDiv.appendChild(section);

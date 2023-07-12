@@ -3,16 +3,10 @@ import { loginGoogle } from '../lib/auth';
 
 export const Register = (onNavigate) => {
   const HomeDiv = document.createElement('div');
-  HomeDiv.textContent = 'Bienvenida al registro';
-  const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Regresar al Home';
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-  HomeDiv.appendChild(buttonHome);
-
   const section = document.createElement('section');
   section.classList.add('form-register');
   const titulo = document.createElement('h4');
-  titulo.textContent = 'Formulario de Registro';
+  titulo.textContent = 'Bienvenid@ al Registro';
   const nombres = document.createElement('input');
   nombres.classList.add('controls');
   nombres.placeholder = 'Ingresa su Nombre';
@@ -31,12 +25,12 @@ export const Register = (onNavigate) => {
   section.appendChild(password);
 
   const terminos = document.createElement('p');
-  terminos.textContent = 'Acepto los términos y condiciones';
+  terminos.textContent = 'Acepto términos y condiciones';
   section.appendChild(terminos);
 
-  const registrado = document.createElement('p');
-  registrado.textContent = '¿Ya estás registrado?';
-  section.appendChild(registrado);
+  //const registrado = document.createElement('p');
+  //registrado.textContent = '¿Ya estás registrado?';
+  //section.appendChild(registrado);
 
   const buttonRegister = document.createElement('button');
   buttonRegister.classList.add('controls');
@@ -78,7 +72,12 @@ export const Register = (onNavigate) => {
   });
   buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
   section.appendChild(buttonGoogle);
-  HomeDiv.appendChild(section);
 
+  const buttonHome = document.createElement('button');
+  buttonHome.classList.add('controls');
+  buttonHome.textContent = 'Regresar al Home';
+  buttonHome.addEventListener('click', () => onNavigate('/'));
+  section.appendChild(buttonHome);
+  HomeDiv.appendChild(section);
   return HomeDiv;
 };
