@@ -6,25 +6,21 @@ import { Landing } from './components/Landing.js';
 const rootDiv = document.getElementById('root');
 
 const routes = {
-  '/': Home,
+  '/home': Home,
   '/register': Register,
   '/login': Login,
   '/landing': Landing,
 };
 
 export const onNavigate = (pathname) => {
-  window.history.pushState(
-    {},
-    pathname,
-    window.location.origin + pathname,
-  );
+  window.history.pushState({}, pathname, window.location.origin + pathname);
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
   }
   rootDiv.appendChild(routes[pathname](onNavigate));
 };
 const component = routes[window.location.pathname];
-window.onpopstate = () => {
+window.addEventListener.onpopstate = () => {
   rootDiv.appendChild(component(onNavigate));
 };
 

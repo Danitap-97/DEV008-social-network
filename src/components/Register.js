@@ -14,12 +14,14 @@ export const Register = (onNavigate) => {
   section.appendChild(nombres);
   nombres.addEventListener('input', () => {
     nombres.value = nombres.value.replace(/[0-9]/g, '');
-    nombres.value = nombres.value.replace(/^[A-Z]+$/);
   });
 
   const correo = document.createElement('input');
   correo.classList.add('controls');
   correo.placeholder = 'Ingresa correo';
+  correo.addEventListener('input', () => {
+    correo.value = correo.value.replace(/[A-Z]/g, '');
+  });
   section.appendChild(correo);
   const password = document.createElement('input');
   password.classList.add('controls');
@@ -31,10 +33,6 @@ export const Register = (onNavigate) => {
   const terminos = document.createElement('p');
   terminos.textContent = 'Acepto términos y condiciones';
   section.appendChild(terminos);
-
-  //const registrado = document.createElement('p');
-  //registrado.textContent = '¿Ya estás registrado?';
-  //section.appendChild(registrado);
 
   const buttonRegister = document.createElement('button');
   buttonRegister.classList.add('controls');
@@ -54,14 +52,14 @@ export const Register = (onNavigate) => {
         })
         .catch(() => {
           const errorRegistro = document.createElement('p');
-          errorRegistro.textContent = 'Oh Error';
-          errorRegistro.style.color = 'red';
+          errorRegistro.textContent = 'Oh Error, correo ya registrado';
+          errorRegistro.style.color = 'white';
           section.appendChild(errorRegistro);
         });
     } else {
       const errorElement = document.createElement('p');
       errorElement.textContent = 'Por favor, complete todos los campos';
-      errorElement.style.color = 'red';
+      errorElement.style.color = 'white';
       section.appendChild(errorElement);
     }
   });
@@ -74,8 +72,7 @@ export const Register = (onNavigate) => {
       onNavigate('/landing');
     });
   });
-  buttonGoogle.innerHTML =
-    '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
+  buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
   section.appendChild(buttonGoogle);
 
   const buttonHome = document.createElement('button');
