@@ -6,14 +6,18 @@ import { Landing } from './components/Landing.js';
 const rootDiv = document.getElementById('root');
 
 const routes = {
-  '/home': Home,
+  '/': Home,
   '/register': Register,
   '/login': Login,
   '/landing': Landing,
 };
 
 export const onNavigate = (pathname) => {
-  window.history.pushState({}, pathname, window.location.origin + pathname);
+  window.history.pushState(
+    {},
+    pathname,
+    window.location.origin + pathname,
+  );
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
   }
@@ -23,3 +27,5 @@ const component = routes[window.location.pathname];
 window.onpopstate = () => {
   rootDiv.appendChild(component(onNavigate));
 };
+
+rootDiv.appendChild(component(onNavigate));
