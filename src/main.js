@@ -20,8 +20,6 @@ export const onNavigate = (pathname) => {
   rootDiv.appendChild(routes[pathname](onNavigate));
 };
 const component = routes[window.location.pathname];
-window.addEventListener.onpopstate = () => {
+window.onpopstate = () => {
   rootDiv.appendChild(component(onNavigate));
 };
-
-rootDiv.appendChild(component(onNavigate));

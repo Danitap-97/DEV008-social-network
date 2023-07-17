@@ -64,7 +64,6 @@ export const Register = (onNavigate) => {
     }
   });
   section.appendChild(buttonRegister);
-
   const buttonGoogle = document.createElement('button');
   buttonGoogle.setAttribute('id', 'google-signin-button');
   buttonGoogle.addEventListener('click', () => {
