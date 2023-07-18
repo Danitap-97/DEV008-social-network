@@ -6,7 +6,7 @@ export const Home = (onNavigate) => {
   logoContainer.classList.add('logo-container');
 
   const logoImage = document.createElement('img');
-  logoImage.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-e2319.appspot.com/o/Blue___Yellow_Minimal_Travel_Agency_Free_Logo-removebg-preview.png?alt=media&token=777e5a3b-7cdc-4bec-980a-d160947cd0fb'; // Reemplaza 'ruta-de-la-imagen/logo.png' con la ruta correcta de tu imagen
+  logoImage.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd'; // Reemplaza 'ruta-de-la-imagen/logo.png' con la ruta correcta de tu imagen
   logoImage.alt = 'Logo de la página web';
   logoContainer.appendChild(logoImage);
 
