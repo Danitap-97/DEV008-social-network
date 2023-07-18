@@ -11,12 +11,17 @@ export const Login = (onNavigate) => {
   emailInput.classList.add('controls');
   emailInput.type = 'email';
   emailInput.placeholder = 'Correo electrónico';
+  emailInput.addEventListener('input', () => {
+    emailInput.value = emailInput.value.replace(/[A-Z]/g, '');
+  });
   loginDiv.appendChild(emailInput);
 
   const passwordInput = document.createElement('input');
   passwordInput.classList.add('controls');
   passwordInput.type = 'password';
   passwordInput.placeholder = 'Contraseña';
+  passwordInput.setAttribute('maxlength', '16');
+  loginDiv.appendChild(passwordInput);
   loginDiv.appendChild(passwordInput);
 
   const loginButton = document.createElement('button');
