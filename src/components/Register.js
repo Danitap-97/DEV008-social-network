@@ -1,5 +1,4 @@
-import { registrarUsuario } from '../lib/firebase';
-import { loginGoogle } from '../lib/auth';
+import { loginGoogle, registrarUsuario } from '../lib/auth';
 
 export const Register = (onNavigate) => {
   const HomeDiv = document.createElement('div');

@@ -50,4 +50,46 @@ line-height: 40px;
     margin: 16px 0;
     font-size: 16px;
 }
+.logo-container img {
+    border-radius: 16px;
+    padding: 10px;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+  }  
+.textarea-style {
+    width: 50%;
+    padding: 0px;
+    margin: 0px 400px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+  }
+  
+  .button-style {
+    background-color: #5c5b5a;
+    color: white;
+    border-radius: 10px 10px 10px;
+    border: none;
+    padding: 10px 20px;
+    margin: 400px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .post-container {
+    margin-bottom: 20px;
+  }
+  
+  .post-container span {
+    font-weight: bold;
+   
+  }
+  
+  .post-container p {
+    margin: 0;
+  }
    

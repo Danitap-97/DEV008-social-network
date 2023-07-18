@@ -1,21 +1,25 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 // TODO: Replace the following with your app's Firebase project configuration
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyATBUTgJTxigajaUl_JKQI5OUkFigfNOpM',
-  authDomain: 'social-network-e2319.firebaseapp.com',
-  projectId: 'social-network-e2319',
-  storageBucket: 'social-network-e2319.appspot.com',
-  messagingSenderId: '338428955083',
-  appId: '1:338428955083:web:676d5a2fa2484096cbce4e',
-  measurementId: 'G-77JZQN59HW',
+  apiKey: 'AIzaSyBYKTgzTOfwLkqIwUgUYjaa01SenkYMW6k',
+  authDomain: 'social-network-2-293be.firebaseapp.com',
+  projectId: 'social-network-2-293be',
+  storageBucket: 'social-network-2-293be.appspot.com',
+  messagingSenderId: '742971928202',
+  appId: '1:742971928202:web:d06cdcbd266de295f18773',
+  measurementId: 'G-YMDMY4MJV8',
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+// const collectionData = doc(firebaseConfig);
+// export const firestore = getAuth(collectionData);
 
-export function registrarUsuario(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
-};
+// const collectionUsuario = getDoc(firebaseConfig);
+
+// Add a new document with a generated id.
