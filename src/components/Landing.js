@@ -2,6 +2,11 @@ import { docRef } from '../lib/firestore.js';
 
 export const Landing = () => {
   const landingDiv = document.createElement('div');
+  // const logoImageFondo = document.createElement('img');
+  // logoImageFondo.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/fondo_blanco_png_by_valuueditions_d4ahzc3-fullview.png?alt=media&token=435402cb-43e5-454f-84ce-42a50c00f1da';
+  // logoImageFondo.alt = 'Logo de la página web';
+  // landingDiv.appendChild(logoImageFondo);
+
   landingDiv.classList.add('landing-class');
   // Agregar la marca de la página web (imagen)
   const logoContainer = document.createElement('div');

@@ -1,7 +1,10 @@
 import { loginGoogle, registrarUsuario } from '../lib/auth';
 
 export const Register = (onNavigate) => {
-  const HomeDiv = document.createElement('div');
+  const HomeDiv = document.createElement('main');
+  HomeDiv.classList.add('register-main');
+  const registerDiv = document.createElement('div');
+  registerDiv.classList.add('register-div');
   const section = document.createElement('section');
   section.classList.add('form-register');
   const titulo = document.createElement('h4');
@@ -78,6 +81,7 @@ export const Register = (onNavigate) => {
   buttonHome.textContent = 'Regresar al Home';
   buttonHome.addEventListener('click', () => onNavigate('/'));
   section.appendChild(buttonHome);
-  HomeDiv.appendChild(section);
+  HomeDiv.appendChild(registerDiv);
+  registerDiv.appendChild(section);
   return HomeDiv;
 };
