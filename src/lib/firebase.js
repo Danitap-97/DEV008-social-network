@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 // TODO: Replace the following with your app's Firebase project configuration
 
@@ -15,7 +16,10 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+// const collectionData = doc(firebaseConfig);
+// export const firestore = getAuth(collectionData);
 
-export function registrarUsuario(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
-}
+// const collectionUsuario = getDoc(firebaseConfig);
+
+// Add a new document with a generated id.
