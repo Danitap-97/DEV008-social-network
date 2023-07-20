@@ -1,22 +1,14 @@
-import { docRef } from '../lib/firestore.js';
-
-export const Landing = () => {
+import { obtenerPublicaciones } from '../lib/firestore.js';
+export const Landing = (onNavigate) => {
   const landingDiv = document.createElement('div');
-  // const logoImageFondo = document.createElement('img');
-  // logoImageFondo.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/fondo_blanco_png_by_valuueditions_d4ahzc3-fullview.png?alt=media&token=435402cb-43e5-454f-84ce-42a50c00f1da';
-  // logoImageFondo.alt = 'Logo de la página web';
-  // landingDiv.appendChild(logoImageFondo);
-
   landingDiv.classList.add('landing-class');
   // Agregar la marca de la página web (imagen)
   const logoContainer = document.createElement('div');
   logoContainer.classList.add('logo-container');
-
   const logoImage = document.createElement('img');
   logoImage.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd'; // Reemplaza 'ruta-de-la-imagen/logo.png' con la ruta correcta de tu imagen
   logoImage.alt = 'Logo de la página web';
   logoContainer.appendChild(logoImage);
-
   landingDiv.appendChild(logoContainer);
 
   const postDiv = document.createElement('div');
@@ -28,7 +20,6 @@ export const Landing = () => {
   textarea.cols = '33';
   textarea.placeholder = 'Escribe tu publicación aquí';
   textarea.classList.add('textarea-style');
-
   postDiv.appendChild(textarea);
 
   const publishButton = document.createElement('button');
@@ -41,7 +32,7 @@ export const Landing = () => {
     const comment = storyTextarea.value;
 
     // Obtener el nombre de usuario y la fecha actual
-    const userName = 'Nombre de usuario';
+    const userName = '';
     const currentDate = new Date().toLocaleDateString();
 
     // Crear elementos para el nombre de usuario, la fecha y el comentario
@@ -59,7 +50,6 @@ export const Landing = () => {
     landingDiv.appendChild(dateElement);
     landingDiv.appendChild(commentElement);
     // agregar la eliminacion
-    docRef();
   }
 
   publishButton.addEventListener('click', handlePublish);

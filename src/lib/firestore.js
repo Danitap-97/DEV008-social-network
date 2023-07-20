@@ -1,10 +1,14 @@
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs} from 'firebase/firestore';
 import { db } from './firebase';
-
-export const docRef = addDoc(collection(db, 'cities'), {
-  name: 'Tokyo',
-  Date: '17/07/2023',
-});
+ 
+export function obtenerPublicaciones(){
+  const coleccionPost = collection(db, 'post')
+  return getDocs(coleccionPost);
+}
+//export const docRef = addDoc(collection(db, 'cities'), {
+  //name: 'Tokyo',
+  //Date: '17/07/2023',
+//});
 
 // export { doc, getDoc } from 'firebase/firestore';
 
