@@ -1,4 +1,5 @@
-import { obtenerPublicaciones } from '../lib/firestore.js';
+import { docRef } from '../lib/firestore.js';
+
 export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
@@ -34,14 +35,26 @@ export const Landing = () => {
     // Obtener el nombre de usuario y la fecha actual
     const userName = '';
     const currentDate = new Date().toLocaleDateString();
-
+    docRef(comment, currentDate, userName);
+    //         .then((userCredential) => {
+    //  Usuario registrado con éxito
+    //       const user = userCredential.user.document.createElement('p');
+    //       user.textContent = 'Registro Exitoso';
+    //       user.style.color = 'black';
+    //       console.log('Usuario registrado:', user);
+    //     })
+    //     .catch((error) => {
+    //       const errorCode = error.code;
+    //       const errorMessage = error.message;
+    //       console.error('Error al registrar el usuario:', errorCode, errorMessage);
+    //     });
+    // }
     // Crear elementos para el nombre de usuario, la fecha y el comentario
     const userElement = document.createElement('span');
     userElement.textContent = `${userName}: `;
 
     const dateElement = document.createElement('span');
     dateElement.textContent = `${currentDate} - `;
-
     const commentElement = document.createElement('p');
     commentElement.textContent = comment;
 

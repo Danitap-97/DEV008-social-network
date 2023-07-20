@@ -16,9 +16,3 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-// const collectionData = doc(firebaseConfig);
-// export const firestore = getAuth(collectionData);
-
-// const collectionUsuario = getDoc(firebaseConfig);
-
-// Add a new document with a generated id.
