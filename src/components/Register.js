@@ -50,6 +50,7 @@ export const Register = (onNavigate) => {
           const registroExitoso = document.createElement('p');
           registroExitoso.textContent = 'Registro Exitoso';
           registroExitoso.style.color = 'black';
+          section.appendChild(registroExitoso);
           onNavigate('/login');
         })
         .catch(() => {

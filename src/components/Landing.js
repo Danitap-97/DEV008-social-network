@@ -1,5 +1,5 @@
 import { obtenerPublicaciones } from '../lib/firestore.js';
-export const Landing = (onNavigate) => {
+export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
   // Agregar la marca de la página web (imagen)

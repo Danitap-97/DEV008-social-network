@@ -12,22 +12,7 @@ export function loginGoogle() {
 export function registrarUsuario(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
 }
-// export function guardarSpan(post) {
-//   // Add a new document with a generated id.
-//   const docRef = addDoc(collection(db, "cities"), {
-//    nameUsuario:'sofia',
-//    date:,
-//    post: post
-//   });
-//   console.log("Document written with ID: ", docRef.id)
-// }
-// export const docRef = function(await){ addDoc(collection(db, "cities"), {
-//   name: "",
-//   country: ""
-// });
 
-// console.log("Document written with ID: ", docRef.id)
-// }
 function registrarUsuarioYVisualizar(email, password) {
   registrarUsuario(email, password)
     .then((userCredential) => {

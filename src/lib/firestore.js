@@ -1,7 +1,7 @@
 import { collection, addDoc, getDocs} from 'firebase/firestore';
 import { db } from './firebase';
  
-export function obtenerPublicaciones(){
+ export function obtenerPublicaciones(){
   const coleccionPost = collection(db, 'post')
   return getDocs(coleccionPost);
 }
