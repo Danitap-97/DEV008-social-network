@@ -1,4 +1,4 @@
-import { docRef, eliminarContenido } from '../lib/firestore.js';
+import { docRef, deletePost, onGetPosts } from '../lib/firestore.js';
 
 export const Landing = () => {
   const landingDiv = document.createElement('div');
@@ -9,12 +9,6 @@ export const Landing = () => {
     <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd" alt="Logo de la página web" />
   </div>
   `;
-  // const logoContainer = document.createElement('div');
-  // logoContainer.classList.add('logo-container');
-  // const logoImage = document.createElement('img');
-  // logoImage.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd'; // Reemplaza 'ruta-de-la-imagen/logo.png' con la ruta correcta de tu imagen
-  // logoImage.alt = 'Logo de la página web';
-  // logoContainer.appendChild(logoImage);
   landingDiv.insertAdjacentHTML('beforeend', logoContainer);
 
   const postDiv = document.createElement('div');
@@ -72,17 +66,69 @@ export const Landing = () => {
 
   postDiv.appendChild(publishButton);
   landingDiv.appendChild(postDiv);
-  // agregar la eliminacion
-  const contenedor = document.createElement('div');
-  contenedor.classList.add('div-class');
-  const buttonEliminar = document.createElement('button');
-  buttonEliminar.classList.add('button-eliminar');
-  buttonEliminar.textContent = 'eliminar';
-  buttonEliminar.id = 'eliminarButton';
-  buttonEliminar.addEventListener('click', eliminarContenido);
-  console.log('eliminar', eliminarContenido);
-  contenedor.appendChild(buttonEliminar);
-  landingDiv.appendChild(contenedor);
+
+  /* Obtener y listar los posts */
+  onGetPosts((postsSnapshot) => {
+    /* Se obtiene los posts en tiempo real y se agregan a la lista postsLists */
+    const postsList = [];
+    postsSnapshot.forEach((docu) => {
+      postsList.push({ id: docu.id, ...docu.data() });
+    });
+    console.log(postsList);
+    /* Se verifica si ya hay un post-container, si lo hay, se limpia */
+    const contenedor = document.getElementById('posts-container');
+    if (contenedor) {
+      contenedor.innerHTML = '';
+    }
+
+    /* Se crea el inicio del div posts-container en el que se agregaran todos los post */
+    let contendorPosts = '<div id="posts-container" class="posts-container">';
+    /* Se recorre el listado de posts */
+    postsList.forEach((post) => {
+      /* Se crea la estructura de cada post y se van agregando uno a uno al posts-container */
+      const postHtml = ` 
+      <div class="post">
+        <div class="post-header">
+          <div class="post-info">
+            <div class="post-user">
+              ${post.nombre}
+            </div>
+            <div class="post-date">
+              ${post.fecha}
+            </div>
+          </div>
+          <div class="post-delete">
+            <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="post-content">
+          ${post.contenido}
+        </div>
+      </div>
+      `;
+      contendorPosts = `${contendorPosts}${postHtml}`;
+    });
+    /* Se cierra el div posts-container */
+    contendorPosts = `${contendorPosts}</div>`;
+    /* Se insertan todos los posts al landingDiv */
+    landingDiv.insertAdjacentHTML('beforeend', contendorPosts);
+
+    /* Se buscan todos los botones de eliminar y se le agrega la funcion de eliminar por su id */
+    const buttonsDeleteList = landingDiv.querySelectorAll('.post-delete-button');
+    buttonsDeleteList.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const idPost = event.target.dataset.idpost;
+        /* Se muestra un confirm dialog para confirmar la eliminacón */
+        // eslint-disable-next-line no-alert
+        const confMessage = window.confirm('¿Estás seguro que quieres eliminar el post?');
+        /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+        if (confMessage) {
+          deletePost(idPost);
+        }
+      });
+    });
+  });
+
   // const likeButton = document.createElement('button');
   // likeButton.textContent = 'Me gusta';
   // likeButton.addEventListener('click', () => {

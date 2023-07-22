@@ -2,8 +2,10 @@ import {
   collection,
   addDoc,
   doc,
-  updateDoc,
-  deleteField,
+  deleteDoc,
+  query,
+  orderBy,
+  onSnapshot,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -12,13 +14,9 @@ export const docRef = (contenido, fecha, nombre) => addDoc(collection(db, 'post'
   fecha,
   nombre,
 });
-export const eliminarContenido = doc(db, 'post', 'story');
-updateDoc(eliminarContenido, {
-  contenido: deleteField(),
-})
-  .then(() => {
-    console.log('posts eliminado con éxito!');
-  })
-  .catch((error) => {
-    console.error('Error al eliminar el posts', error);
-  });
+
+/* Función que lista los posts y cuando se agrega un nuevo post se vuela a ejecutar */
+export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'), orderBy('contenido', 'asc')), callback);
+
+/* Función que elimina el post por id */
+export const deletePost = (id) => deleteDoc(doc(db, 'post', id));

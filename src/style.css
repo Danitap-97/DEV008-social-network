@@ -296,4 +296,13 @@ width: 100%;
   }
 }
 
+.posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 
+.post {
+  border: 1px solid #979592;
+  padding: 16px;
+}
