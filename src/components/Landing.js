@@ -1,16 +1,21 @@
-import { docRef } from '../lib/firestore.js';
+import { docRef, eliminarContenido } from '../lib/firestore.js';
 
 export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
   // Agregar la marca de la página web (imagen)
-  const logoContainer = document.createElement('div');
-  logoContainer.classList.add('logo-container');
-  const logoImage = document.createElement('img');
-  logoImage.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd'; // Reemplaza 'ruta-de-la-imagen/logo.png' con la ruta correcta de tu imagen
-  logoImage.alt = 'Logo de la página web';
-  logoContainer.appendChild(logoImage);
-  landingDiv.appendChild(logoContainer);
+  const logoContainer = ` 
+  <div class="logo-container">
+    <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd" alt="Logo de la página web" />
+  </div>
+  `;
+  // const logoContainer = document.createElement('div');
+  // logoContainer.classList.add('logo-container');
+  // const logoImage = document.createElement('img');
+  // logoImage.src = 'https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd'; // Reemplaza 'ruta-de-la-imagen/logo.png' con la ruta correcta de tu imagen
+  // logoImage.alt = 'Logo de la página web';
+  // logoContainer.appendChild(logoImage);
+  landingDiv.insertAdjacentHTML('beforeend', logoContainer);
 
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
@@ -62,13 +67,22 @@ export const Landing = () => {
     landingDiv.appendChild(userElement);
     landingDiv.appendChild(dateElement);
     landingDiv.appendChild(commentElement);
-    // agregar la eliminacion
   }
-
   publishButton.addEventListener('click', handlePublish);
 
   postDiv.appendChild(publishButton);
-
+  landingDiv.appendChild(postDiv);
+  // agregar la eliminacion
+  const contenedor = document.createElement('div');
+  contenedor.classList.add('div-class');
+  const buttonEliminar = document.createElement('button');
+  buttonEliminar.classList.add('button-eliminar');
+  buttonEliminar.textContent = 'eliminar';
+  buttonEliminar.id = 'eliminarButton';
+  buttonEliminar.addEventListener('click', eliminarContenido);
+  console.log('eliminar', eliminarContenido);
+  contenedor.appendChild(buttonEliminar);
+  landingDiv.appendChild(contenedor);
   // const likeButton = document.createElement('button');
   // likeButton.textContent = 'Me gusta';
   // likeButton.addEventListener('click', () => {
@@ -105,8 +119,6 @@ export const Landing = () => {
   //   console.log(`Me gusta: ${likesCount}`);
   //   console.log(`No me gusta: ${dislikesCount}`);
   // }
-
-  landingDiv.appendChild(postDiv);
   // landingDiv.appendChild(likeButton);
   // landingDiv.appendChild(dislikeButton);
 
