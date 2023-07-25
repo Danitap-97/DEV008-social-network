@@ -188,6 +188,14 @@ input.controls ::placeholder{
   background-color: #ffffff; /* Establecer el color de fondo a blanco */
   background-image: none;
 }
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .logo-container {
   /* Estilos para el contenedor del logo */
@@ -197,6 +205,30 @@ input.controls ::placeholder{
   align-items: center;
   background-color: transparent;
   padding: 0px;
+}
+.user-icon{
+  float: right;
+  width: 80px;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+}
+.search-box input {
+  justify-content: none;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px; 
+}
+.botonBuscarUsuario {
+  background-color: #807a7a;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 .section-landing {
   background-color: #fff;

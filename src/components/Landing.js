@@ -3,13 +3,34 @@ import { docRef, deletePost, onGetPosts } from '../lib/firestore.js';
 export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
+  const header = document.createElement('header');
+  if (landingDiv) {
+    landingDiv.appendChild(header);
+  }
   // Agregar la marca de la página web (imagen)
   const logoContainer = ` 
   <div class="logo-container">
     <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd" alt="Logo de la página web" />
   </div>
   `;
-  landingDiv.insertAdjacentHTML('beforeend', logoContainer);
+  header.insertAdjacentHTML('beforeend', logoContainer);
+
+  const usuarioIcono = document.createElement('img');
+  usuarioIcono.classList.add('user-icon');
+  usuarioIcono.src = 'https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png';
+  header.appendChild(usuarioIcono);
+
+  const buscarEnWeb = document.createElement('input');
+  buscarEnWeb.classList.add('search-box');
+  buscarEnWeb.type = 'text';
+  buscarEnWeb.id = 'search-input';
+  buscarEnWeb.placeholder = 'Buscar...';
+  header.appendChild(buscarEnWeb);
+
+  const botonBuscarUsuario = document.createElement('button');
+  botonBuscarUsuario.classList.add('botonBuscarUsuario');
+  botonBuscarUsuario.textContent = 'Buscar';
+  header.appendChild(botonBuscarUsuario);
 
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
