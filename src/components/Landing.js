@@ -1,15 +1,40 @@
-import { docRef, deletePost, onGetPosts } from '../lib/firestore.js';
+import {
+  docRef, deletePost, onGetPosts, upDateDoc,
+} from '../lib/firestore.js';
+
+import { auth } from '../lib/firebase.js';
 
 export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
+  const header = document.createElement('header');
+  if (landingDiv) {
+    landingDiv.appendChild(header);
+  }
   // Agregar la marca de la página web (imagen)
   const logoContainer = ` 
   <div class="logo-container">
     <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd" alt="Logo de la página web" />
   </div>
   `;
-  landingDiv.insertAdjacentHTML('beforeend', logoContainer);
+  header.insertAdjacentHTML('beforeend', logoContainer);
+
+  const usuarioIcono = document.createElement('img');
+  usuarioIcono.classList.add('user-icon');
+  usuarioIcono.src = 'https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png';
+  header.appendChild(usuarioIcono);
+
+  const buscarEnWeb = document.createElement('input');
+  buscarEnWeb.classList.add('search-box');
+  buscarEnWeb.type = 'text';
+  buscarEnWeb.id = 'search-input';
+  buscarEnWeb.placeholder = 'Buscar...';
+  header.appendChild(buscarEnWeb);
+
+  const botonBuscarUsuario = document.createElement('button');
+  botonBuscarUsuario.classList.add('botonBuscarUsuario');
+  botonBuscarUsuario.textContent = 'Buscar';
+  header.appendChild(botonBuscarUsuario);
 
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
@@ -32,9 +57,13 @@ export const Landing = () => {
     const comment = storyTextarea.value;
 
     // Obtener el nombre de usuario y la fecha actual
-    const userName = '';
+    const userName = auth.currentUser.email;
     const currentDate = new Date().toLocaleDateString();
-    docRef(comment, currentDate, userName);
+
+    docRef(comment, currentDate, userName).then((resultado) => {
+      console.log(resultado, 'al agregar');
+    });
+
     //         .then((userCredential) => {
     //  Usuario registrado con éxito
     //       const user = userCredential.user.document.createElement('p');
@@ -49,18 +78,6 @@ export const Landing = () => {
     //     });
     // }
     // Crear elementos para el nombre de usuario, la fecha y el comentario
-    const userElement = document.createElement('span');
-    userElement.textContent = `${userName}: `;
-
-    const dateElement = document.createElement('span');
-    dateElement.textContent = `${currentDate} - `;
-    const commentElement = document.createElement('p');
-    commentElement.textContent = comment;
-
-    // Adjuntar los elementos al landingDiv
-    landingDiv.appendChild(userElement);
-    landingDiv.appendChild(dateElement);
-    landingDiv.appendChild(commentElement);
   }
   publishButton.addEventListener('click', handlePublish);
 
@@ -74,16 +91,10 @@ export const Landing = () => {
     postsSnapshot.forEach((docu) => {
       postsList.push({ id: docu.id, ...docu.data() });
     });
-    console.log(postsList);
-    /* Se verifica si ya hay un post-container, si lo hay, se limpia */
-    const contenedor = document.getElementById('posts-container');
-    if (contenedor) {
-      contenedor.innerHTML = '';
-    }
-
-    /* Se crea el inicio del div posts-container en el que se agregaran todos los post */
-    let contendorPosts = '<div id="posts-container" class="posts-container">';
-    /* Se recorre el listado de posts */
+    /* Se crea variable para crear contenedor posts */
+    let contendorPosts = '';
+    /* Se recorre el listado de posts y se crean todos los posts sin un contenedor */
+    let posts = '';
     postsList.forEach((post) => {
       /* Se crea la estructura de cada post y se van agregando uno a uno al posts-container */
       const postHtml = ` 
@@ -97,30 +108,56 @@ export const Landing = () => {
               ${post.fecha}
             </div>
           </div>
+          </div>
           <div class="post-delete">
             <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
           </div>
-        </div>
         <div class="post-content">
           ${post.contenido}
         </div>
+        <div class="post-like">
+            <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
+            </div>
+            <div class="post-edition">
+            <i data-idpost="${post.buttonsEditionList} class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
+          </div>
       </div>
       `;
-      contendorPosts = `${contendorPosts}${postHtml}`;
+      // crear evento para el boton
+      posts = `${posts}${postHtml}`;
     });
-    /* Se cierra el div posts-container */
-    contendorPosts = `${contendorPosts}</div>`;
-    /* Se insertan todos los posts al landingDiv */
-    landingDiv.insertAdjacentHTML('beforeend', contendorPosts);
+
+    /* Se verifica si ya hay un post-container */
+    const contenedor = document.getElementById('posts-container');
+    if (contenedor) {
+      /* Si lo hay, se limpia y en ese mismo contenedor existente se agregan los posts */
+      contenedor.innerHTML = '';
+      contenedor.insertAdjacentHTML('beforeend', posts);
+    } else {
+      /* Si no hay un contenedor existe creamos uno nuevo */
+      /* Se crea el inicio del div posts-container en el que se agregaran todos los post */
+      contendorPosts = '<div id="posts-container" class="posts-container">';
+      /* Se llena el contenedor con los posts */
+      contendorPosts = `${contendorPosts}${posts}`;
+      /* Se cierra el div posts-container */
+      contendorPosts = `${contendorPosts}</div>`;
+      /* Se insertan todos los posts al landingDiv */
+      landingDiv.insertAdjacentHTML('beforeend', contendorPosts);
+    }
 
     /* Se buscan todos los botones de eliminar y se le agrega la funcion de eliminar por su id */
-    const buttonsDeleteList = landingDiv.querySelectorAll('.post-delete-button');
+    const buttonsDeleteList = landingDiv.querySelectorAll(
+      '.post-delete-button',
+    );
     buttonsDeleteList.forEach((button) => {
       button.addEventListener('click', (event) => {
         const idPost = event.target.dataset.idpost;
         /* Se muestra un confirm dialog para confirmar la eliminacón */
         // eslint-disable-next-line no-alert
-        const confMessage = window.confirm('¿Estás seguro que quieres eliminar el post?');
+        const confMessage = window.confirm(
+          '¿Estás seguro que quieres eliminar el post?',
+        );
+
         /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
         if (confMessage) {
           deletePost(idPost);
@@ -129,44 +166,24 @@ export const Landing = () => {
     });
   });
 
-  // const likeButton = document.createElement('button');
-  // likeButton.textContent = 'Me gusta';
-  // likeButton.addEventListener('click', () => {
-  //   likesCount++;
-  //   updateLikesDislikes();
-  //   // Lógica para incrementar los "Me gusta"
-  //   console.log('¡Me gusta!');
-  //   console.log('likesCount++');
-  // });
+  const buttonsEditionList = landingDiv.querySelectorAll(
+    '.post-edition-button',
+  );
+  buttonsEditionList.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const idPost = event.target.dataset.idpost;
+      /* Se muestra un confirm dialog para confirmar la eliminacón */
+      // eslint-disable-next-line no-alert
+      const confMessage = window.confirm(
+        '¿Estás seguro que quieres editar el post?',
+      );
 
-  // const dislikeButton = document.createElement('button');
-  // dislikeButton.textContent = 'No me gusta';
-  // dislikeButton.addEventListener('click', () => {
-  //   dislikesCount++;
-  //   updateLikesDislikes();
-  //   // Lógica para incrementar los "No me gusta"
-  //   console.log('¡No me gusta!');
-  // });
-  // postElement.addEventListener('click', () => {
-  //   const userInput = prompt('Escribe tu comentario');
-  //   if (userInput) {
-  //     console.log('El usuario escribió:', userInput);
-  //   } else {
-  //     console.log('El usuario no escribió ningún comentario');
-  //   }
-  // });
-  // function updateLikesDislikes() {
-  //   const likesElement = document.getElementById('likes');
-  //   const dislikesElement = document.getElementById('dislikes');
-
-  //   likesElement.textContent = `Me gusta: ${likesCount}`;
-  //   dislikesElement.textContent = `No me gusta: ${dislikesCount}`;
-
-  //   console.log(`Me gusta: ${likesCount}`);
-  //   console.log(`No me gusta: ${dislikesCount}`);
-  // }
-  // landingDiv.appendChild(likeButton);
-  // landingDiv.appendChild(dislikeButton);
+      /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+      if (confMessage) {
+        upDateDoc(idPost);
+      }
+    });
+  });
 
   return landingDiv;
 };
