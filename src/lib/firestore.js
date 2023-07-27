@@ -21,3 +21,6 @@ export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'),
 
 /* Función que elimina el post por id */
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
+export const updateLike = (id, tipo ) => {
+  const email = localStorage.getItem(email);
+};

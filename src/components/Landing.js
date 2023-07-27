@@ -92,11 +92,12 @@ export const Landing = () => {
         <div class="post-content">
           ${post.contenido}
         </div>
-        <div class="post-like">
-            <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
+        <div class="post-like" id="likepost" value = "${posts}">
+            <i id= "${post.contenido} "  class='fa fa-thumbs-o-up : fa fa-thumbs-up  post-like-button class = 'postlike' aria-hidden='true'></i>
             </div>
       </div>
       `;
+      console.log(post.isLike);
       // crear evento para el boton
       posts = `${posts}${postHtml}`;
     });
@@ -136,6 +137,22 @@ export const Landing = () => {
           deletePost(idPost);
         }
       });
+    });
+    const like = document.getElementsByClassName('postlike');
+    like.value = posts;
+    console.log(like, 'prueba');
+    like.addEventListener('click', (btn) => {
+      console.log(btn.target.value);
+      //const likeActual = event.target.value.post.like;
+      //console.log(likeActual);
+      //const arrayEmail = localStorage.email;
+      //const hasLike = likeActual.includes(arrayEmail);
+      //Utilizamos métodos de remove y union en Firebase. Importamos updatePostLike.
+      //if (hasLike) {
+      //  updateLike(event.target.value.id, 'remove');
+      //} else {
+      //  updateLike(event.target.value.id, 'union');
+      // }
     });
   });
 
