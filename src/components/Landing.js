@@ -1,4 +1,7 @@
-import { docRef, deletePost, onGetPosts } from '../lib/firestore.js';
+import {
+  docRef, deletePost, onGetPosts, upDateDoc,
+} from '../lib/firestore.js';
+
 import { auth } from '../lib/firebase.js';
 
 export const Landing = () => {
@@ -109,13 +112,15 @@ export const Landing = () => {
           <div class="post-delete">
             <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
           </div>
-        
         <div class="post-content">
           ${post.contenido}
         </div>
         <div class="post-like">
             <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
             </div>
+            <div class="post-edition">
+            <i data-idpost="${post.buttonsEditionList} class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
+          </div>
       </div>
       `;
       // crear evento para el boton
@@ -150,8 +155,9 @@ export const Landing = () => {
         /* Se muestra un confirm dialog para confirmar la eliminacón */
         // eslint-disable-next-line no-alert
         const confMessage = window.confirm(
-          '¿Estás seguro que quieres eliminar el post?'
+          '¿Estás seguro que quieres eliminar el post?',
         );
+
         /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
         if (confMessage) {
           deletePost(idPost);
@@ -160,44 +166,24 @@ export const Landing = () => {
     });
   });
 
-  // const likeButton = document.createElement('button');
-  // likeButton.textContent = 'Me gusta';
-  // likeButton.addEventListener('click', () => {
-  //   likesCount++;
-  //   updateLikesDislikes();
-  //   // Lógica para incrementar los "Me gusta"
-  //   console.log('¡Me gusta!');
-  //   console.log('likesCount++');
-  // });
+  const buttonsEditionList = landingDiv.querySelectorAll(
+    '.post-edition-button',
+  );
+  buttonsEditionList.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const idPost = event.target.dataset.idpost;
+      /* Se muestra un confirm dialog para confirmar la eliminacón */
+      // eslint-disable-next-line no-alert
+      const confMessage = window.confirm(
+        '¿Estás seguro que quieres editar el post?',
+      );
 
-  // const dislikeButton = document.createElement('button');
-  // dislikeButton.textContent = 'No me gusta';
-  // dislikeButton.addEventListener('click', () => {
-  //   dislikesCount++;
-  //   updateLikesDislikes();
-  //   // Lógica para incrementar los "No me gusta"
-  //   console.log('¡No me gusta!');
-  // });
-  // postElement.addEventListener('click', () => {
-  //   const userInput = prompt('Escribe tu comentario');
-  //   if (userInput) {
-  //     console.log('El usuario escribió:', userInput);
-  //   } else {
-  //     console.log('El usuario no escribió ningún comentario');
-  //   }
-  // });
-  // function updateLikesDislikes() {
-  //   const likesElement = document.getElementById('likes');
-  //   const dislikesElement = document.getElementById('dislikes');
-
-  //   likesElement.textContent = `Me gusta: ${likesCount}`;
-  //   dislikesElement.textContent = `No me gusta: ${dislikesCount}`;
-
-  //   console.log(`Me gusta: ${likesCount}`);
-  //   console.log(`No me gusta: ${dislikesCount}`);
-  // }
-  // landingDiv.appendChild(likeButton);
-  // landingDiv.appendChild(dislikeButton);
+      /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+      if (confMessage) {
+        upDateDoc(idPost);
+      }
+    });
+  });
 
   return landingDiv;
 };

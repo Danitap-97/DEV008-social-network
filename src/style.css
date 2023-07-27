@@ -320,6 +320,9 @@ p {
   
   
 }
+.post-edition { 
+  display: flex;
+}
 .fa {
   cursor: pointer;
 }
