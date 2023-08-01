@@ -9,8 +9,14 @@ export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
   const header = document.createElement('header');
+  const navRight = document.createElement('div');
+  navRight.classList.add('nav-right');
+  const navLeft = document.createElement('div');
+  navLeft.classList.add('nav-left');
   if (landingDiv) {
     landingDiv.appendChild(header);
+    header.appendChild(navLeft);
+    header.appendChild(navRight);
   }
   // Agregar la marca de la página web (imagen)
   const logoContainer = ` 
@@ -18,24 +24,24 @@ export const Landing = () => {
     <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd" alt="Logo de la página web" />
   </div>
   `;
-  header.insertAdjacentHTML('beforeend', logoContainer);
+  navLeft.insertAdjacentHTML('beforeend', logoContainer);
 
   const usuarioIcono = document.createElement('img');
   usuarioIcono.classList.add('user-icon');
   usuarioIcono.src = 'https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png';
-  header.appendChild(usuarioIcono);
+  navLeft.appendChild(usuarioIcono);
 
   const buscarEnWeb = document.createElement('input');
   buscarEnWeb.classList.add('search-box');
   buscarEnWeb.type = 'text';
   buscarEnWeb.id = 'search-input';
   buscarEnWeb.placeholder = 'Buscar...';
-  header.appendChild(buscarEnWeb);
+  navRight.appendChild(buscarEnWeb);
 
   const botonBuscarUsuario = document.createElement('button');
   botonBuscarUsuario.classList.add('botonBuscarUsuario');
   botonBuscarUsuario.textContent = 'Buscar';
-  header.appendChild(botonBuscarUsuario);
+  navRight.appendChild(botonBuscarUsuario);
 
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
@@ -100,21 +106,34 @@ export const Landing = () => {
       /* Se crea la estructura de cada post y se van agregando uno a uno al posts-container */
       const postHtml = ` 
       <div class="post">
+        <div class="post-left">
         <div class="post-header">
           <div class="post-info">
             <div class="post-user">
-              ${post.nombre}
+              <div class="post-user">
+                ${post.nombre}
+              </div>
+             
             </div>
             <div class="post-date">
               ${post.fecha}
             </div>
           </div>
           </div>
+          <div class="post-content">
+            ${post.contenido}
+          </div>
+          <div class="post-like">
+            <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
+          </div>
+        </div>
+        <div class="post-right">
+          <div class="post-edition">
+            <i data-idpost=""${post.buttonsEditionList}" class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
+          </div>
           <div class="post-delete">
             <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
           </div>
-        <div class="post-content">
-          ${post.contenido}
         </div>
         <div class="post-like">
         <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
@@ -159,7 +178,7 @@ export const Landing = () => {
       '.post-delete-button',
     );
     buttonsDeleteList.forEach((button) => {
-      button.addEventListener('click', (event) => {
+      button.asddEventListener('click', (event) => {
         const idPost = event.target.dataset.idpost;
         /* Se muestra un confirm dialog para confirmar la eliminacón */
         // eslint-disable-next-line no-alert
@@ -272,6 +291,7 @@ export const Landing = () => {
             });
           });
         });
+        upDateDoc(idPost);
       });
     });
   });

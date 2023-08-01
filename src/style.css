@@ -207,14 +207,14 @@ header {
   align-items: center;
   background-color: transparent;
   padding: 0px;
+  margin-right: 16px;
 }
 .user-icon{
   float: right;
   width: 80px;
 }
 .search-box {
-  display: flex;
-  align-items: center;
+  justify-content: left;
 }
 .search-box input {
   justify-content: none;
@@ -348,13 +348,15 @@ p {
 }
 .posts-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 16px;
 }
 
 .post {
   border: 1px solid #979592;
   padding: 16px;
+  display: flex;
+  justify-content: space-between;
 }
 .post-content {
   align-items: flex-end;
@@ -369,6 +371,26 @@ p {
 }
 .fa {
   cursor: pointer;
+}
+
+.nav-left{
+  display: flex;
+}
+
+.nav-right{
+  display: flex;
+}
+.post-like{
+  margin-top: 16px;
+}
+.post-left{
+  display: flex;
+  flex-direction: column;
+}
+.post-right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Media query para tablet */
