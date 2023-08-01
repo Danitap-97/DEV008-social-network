@@ -328,6 +328,10 @@ p {
   cursor: pointer;
 }
 
+.ocultar {
+  display: none;
+}
+
 /* Media query para tablet */
 @media (min-width: 768px) {
   .logo-container img {
