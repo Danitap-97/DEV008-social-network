@@ -14,7 +14,7 @@ export const docRef = (contenido, fecha, nombre) => addDoc(collection(db, 'post'
   contenido,
   fecha,
   nombre,
-  like: [],
+  likes: [],
 });
 
 /* Función que lista los posts y cuando se agrega un nuevo post se vuela a ejecutar */
