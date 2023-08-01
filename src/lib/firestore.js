@@ -17,7 +17,7 @@ export const docRef = (contenido, fecha, nombre) => addDoc(collection(db, 'post'
   likes: [],
 });
 
-/* Función que lista los posts y cuando se agrega un nuevo post se vuela a ejecutar */
+/* Función que lista los posts y cuando se agrega un nuevo post se vuelve a ejecutar */
 export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'), orderBy('fecha', 'desc')), callback);
 
 /* Función que elimina el post por id */

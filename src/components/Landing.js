@@ -1,5 +1,5 @@
 import {
-  docRef, deletePost, onGetPosts, upDateDoc, updateLike,
+  docRef, deletePost, onGetPosts, updateLike,
 } from '../lib/firestore.js';
 
 import { auth } from '../lib/firebase.js';
@@ -61,23 +61,8 @@ export const Landing = () => {
     const currentDate = new Date().toLocaleDateString();
 
     docRef(comment, currentDate, userName).then((resultado) => {
-      console.log(resultado, 'al agregar');
+      resultado();
     });
-
-    //         .then((userCredential) => {
-    //  Usuario registrado con éxito
-    //       const user = userCredential.user.document.createElement('p');
-    //       user.textContent = 'Registro Exitoso';
-    //       user.style.color = 'black';
-    //       console.log('Usuario registrado:', user);
-    //     })
-    //     .catch((error) => {
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //       console.error('Error al registrar el usuario:', errorCode, errorMessage);
-    //     });
-    // }
-    // Crear elementos para el nombre de usuario, la fecha y el comentario
   }
   publishButton.addEventListener('click', handlePublish);
 
