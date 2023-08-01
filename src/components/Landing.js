@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import {
   docRef, deletePost, onGetPosts, upDateDoc,
 } from '../lib/firestore.js';
@@ -115,15 +116,22 @@ export const Landing = () => {
         <div class="post-content">
           ${post.contenido}
         </div>
-        <div class="post-like" id="likepost" value = "${posts}">
-            <i id= "${post.contenido} "  class='fa fa-thumbs-o-up : fa fa-thumbs-up  post-like-button class = 'postlike' aria-hidden='true'></i>
-            </div>
+        <div class="post-like">
+        <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
+        </div>
             <div class="post-edition">
-            <i data-idpost="${post.buttonsEditionList} class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
           </div>
+          <!-- Agrega este modal al final de tu documento HTML, justo antes de </body> -->
+        <div id="editModal" class="modal">
+        <div class="modal-content">
+        <span class="close">&times;</span>
+        <textarea id="editContent"></textarea>
+        <button id="saveEditButton">Guardar cambios</button>
+      </div>
+</div>
       </div>
       `;
-      console.log(post.isLike);
       // crear evento para el boton
       posts = `${posts}${postHtml}`;
     });
@@ -165,42 +173,107 @@ export const Landing = () => {
         }
       });
     });
+
     const like = document.getElementsByClassName('postlike');
     like.value = posts;
     console.log(like, 'prueba');
-    like.addEventListener('click', (btn) => {
-      console.log(btn.target.value);
-      //const likeActual = event.target.value.post.like;
-      //console.log(likeActual);
-      //const arrayEmail = localStorage.email;
-      //const hasLike = likeActual.includes(arrayEmail);
-      //Utilizamos métodos de remove y union en Firebase. Importamos updatePostLike.
-      //if (hasLike) {
-      //  updateLike(event.target.value.id, 'remove');
-      //} else {
-      //  updateLike(event.target.value.id, 'union');
-      // }
+    // like.addEventListener('click', (btn) => {
+    //   console.log(btn.target.value);
+    // const likeActual = event.target.value.post.like;
+    // console.log(likeActual);
+    // const arrayEmail = localStorage.email;
+    // const hasLike = likeActual.includes(arrayEmail);
+    // Utilizamos métodos de remove y union en Firebase. Importamos updatePostLike.
+    // if (hasLike) {
+    //  updateLike(event.target.value.id, 'remove');
+    // } else {
+    //  updateLike(event.target.value.id, 'union');
+    // }
+    // });
+    const buttonsEditionList = landingDiv.querySelectorAll(
+      '.post-edition-button',
+    );
+    buttonsEditionList.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const idPost = event.target.dataset.idpost;
+        /* Se muestra un confirm dialog para confirmar la eliminacón */
+        // eslint-disable-next-line no-alert
+        const confMessage = window.confirm(
+          '¿Estás seguro que quieres editar el post?',
+        );
+
+        /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+        if (confMessage) {
+          console.log(event.target);
+          upDateDoc(idPost, 'post actualizado');
+          console.log(upDateDoc);
+        }
+        // Actualiza la función para editar el post y mostrar el modal con el contenido actual
+        function editarPost(contenido) {
+          const editModal = document.getElementById('editModal');
+          const editContent = document.getElementById('editContent');
+
+          // Colocamos el contenido actual del post en el textarea del modal
+          editContent.value = contenido;
+
+          // Mostramos el modal
+          editModal.style.display = 'block';
+        }
+
+        // Obtener todos los botones de edición
+        const editButtons = document.querySelectorAll('.post-edition-button');
+
+        // Agregar un listener de click a cada botón de edición
+        editButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+          // Obtener el contenido actual del post
+            const postId = button.getAttribute('data-idpost');
+            const postContent = button.getAttribute('data-content');
+
+            // Llamar a la función para editar el post con el contenido actual
+            editarPost(postContent);
+
+            // Agregar un listener de click al botón de guardar cambios en el modal
+            const saveEditButton = document.getElementById('saveEditButton');
+            saveEditButton.addEventListener('click', () => {
+            // Obtener el nuevo contenido del post del textarea del modal
+              const nuevoContenido = document.getElementById('editContent').value;
+
+              // Llamar a la función para guardar los cambios
+              function guardarCambios(postId, nuevoContenido) {
+                // Llamar a la función para actualizar el documento con el nuevo contenido
+                upDateDoc(postId, nuevoContenido)
+                  .then(() => {
+                    console.log(`Cambios guardados para el post con ID ${postId}`);
+                    const messageBox = document.getElementById('messageBox');
+                    messageBox.textContent = 'Cambios guardados correctamente';
+                    messageBox.classList.add('success-message');
+                    messageBox.style.display = 'block';
+                  })
+                  .catch(() => {
+                    const messageBox = document.getElementById('messageBox');
+                    messageBox.textContent = 'Error al guardar los cambios';
+                    messageBox.classList.add('error-message');
+                    messageBox.style.display = 'block';
+                  });
+              }
+              guardarCambios(postId, nuevoContenido);
+
+              // Cerrar el modal después de guardar los cambios
+              const editModal = document.getElementById('editModal');
+              editModal.style.display = 'none';
+            });
+            // Agregar un listener de click al botón de cerrar el modal
+            const closeButton = document.querySelector('.close');
+            closeButton.addEventListener('click', () => {
+            // Cerrar el modal sin guardar los cambios
+              const editModal = document.getElementById('editModal');
+              editModal.style.display = 'none';
+            });
+          });
+        });
+      });
     });
   });
-
-  const buttonsEditionList = landingDiv.querySelectorAll(
-    '.post-edition-button',
-  );
-  buttonsEditionList.forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const idPost = event.target.dataset.idpost;
-      /* Se muestra un confirm dialog para confirmar la eliminacón */
-      // eslint-disable-next-line no-alert
-      const confMessage = window.confirm(
-        '¿Estás seguro que quieres editar el post?',
-      );
-
-      /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
-      if (confMessage) {
-        upDateDoc(idPost);
-      }
-    });
-  });
-
   return landingDiv;
 };

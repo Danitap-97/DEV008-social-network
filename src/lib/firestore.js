@@ -6,6 +6,7 @@ import {
   query,
   orderBy,
   onSnapshot,
+  setDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -17,15 +18,12 @@ export const docRef = (contenido, fecha, nombre) => addDoc(collection(db, 'post'
 });
 
 /* Función que lista los posts y cuando se agrega un nuevo post se vuela a ejecutar */
-export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'), orderBy('fecha', 'desc')), callback);
+export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'), orderBy('fecha', 'asc')), callback);
 
 /* Función que elimina el post por id */
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
-<<<<<<< HEAD
-export const updateLike = (id, tipo ) => {
-  const email = localStorage.getItem(email);
-};
-=======
+// export const updateLike = (id, tipo ) => {
+//   const email = localStorage.getItem(email);
+// };
 
-export const upDateDoc = (id) => upDateDoc(doc(db, 'post', id));
->>>>>>> b38664ea4abcf6fae38aef916ee78c755463cd12
+export const upDateDoc = (id, nuevoContenido) => setDoc(doc(db, 'post', id), { contenido: nuevoContenido }, { merge: true });
