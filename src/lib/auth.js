@@ -10,12 +10,11 @@ export function loginGoogle() {
   return signInWithPopup(auth, provider).then((userCredential) => {
     console.log(userCredential);
     // Obtencion de la informacion del usuario que inicio sesion
- const user = userCredential.user;
- localStorage.setItem('email', userCredential.user.email);
- console.log(user);
-  return userCredential
-  
-}
+    const user = userCredential.user;
+    localStorage.setItem('email', userCredential.user.email);
+    console.log(user);
+    return userCredential;
+  };
   );
   
 }
