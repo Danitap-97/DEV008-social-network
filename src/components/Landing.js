@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import {
   docRef, deletePost, onGetPosts, upDateDoc,
 } from '../lib/firestore.js';
@@ -8,8 +9,14 @@ export const Landing = () => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
   const header = document.createElement('header');
+  const navRight = document.createElement('div');
+  navRight.classList.add('nav-right');
+  const navLeft = document.createElement('div');
+  navLeft.classList.add('nav-left');
   if (landingDiv) {
     landingDiv.appendChild(header);
+    header.appendChild(navLeft);
+    header.appendChild(navRight);
   }
   // Agregar la marca de la página web (imagen)
   const logoContainer = ` 
@@ -17,24 +24,24 @@ export const Landing = () => {
     <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd" alt="Logo de la página web" />
   </div>
   `;
-  header.insertAdjacentHTML('beforeend', logoContainer);
+  navLeft.insertAdjacentHTML('beforeend', logoContainer);
 
   const usuarioIcono = document.createElement('img');
   usuarioIcono.classList.add('user-icon');
   usuarioIcono.src = 'https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png';
-  header.appendChild(usuarioIcono);
+  navLeft.appendChild(usuarioIcono);
 
   const buscarEnWeb = document.createElement('input');
   buscarEnWeb.classList.add('search-box');
   buscarEnWeb.type = 'text';
   buscarEnWeb.id = 'search-input';
   buscarEnWeb.placeholder = 'Buscar...';
-  header.appendChild(buscarEnWeb);
+  navRight.appendChild(buscarEnWeb);
 
   const botonBuscarUsuario = document.createElement('button');
   botonBuscarUsuario.classList.add('botonBuscarUsuario');
   botonBuscarUsuario.textContent = 'Buscar';
-  header.appendChild(botonBuscarUsuario);
+  navRight.appendChild(botonBuscarUsuario);
 
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
@@ -46,6 +53,20 @@ export const Landing = () => {
   textarea.placeholder = 'Escribe tu publicación aquí';
   textarea.classList.add('textarea-style');
   postDiv.appendChild(textarea);
+  const modal = document.createElement('div');
+  modal.id = 'editModal';
+  modal.classList.add('modal');
+  modal.innerHTML = `<!-- Agrega este modal al final de tu documento HTML, justo antes de </body> -->
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <textarea id="editContent"></textarea>
+          <button data-id="" id="saveEditButton">Guardar cambios</button>
+  </div>`;
+  modal.querySelector('.close').addEventListener('click', () => {
+    //  función para cerrar el modal
+    modal.style.display = 'none';
+  });
+  landingDiv.appendChild(modal);
 
   const publishButton = document.createElement('button');
   publishButton.id = 'publishButton';
@@ -99,31 +120,38 @@ export const Landing = () => {
       /* Se crea la estructura de cada post y se van agregando uno a uno al posts-container */
       const postHtml = ` 
       <div class="post">
+        <div class="post-left">
         <div class="post-header">
           <div class="post-info">
             <div class="post-user">
-              ${post.nombre}
+              <div class="post-user">
+                ${post.nombre}
+              </div>
+             
             </div>
             <div class="post-date">
               ${post.fecha}
             </div>
           </div>
           </div>
-          <div class="post-delete">
-            <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+          <div class="post-content">
+            ${post.contenido}
           </div>
-        <div class="post-content">
-          ${post.contenido}
-        </div>
-        <div class="post-like" id="likepost" value = "${posts}">
-            <i id= "${post.contenido} "  class='fa fa-thumbs-o-up : fa fa-thumbs-up  post-like-button class = 'postlike' aria-hidden='true'></i>
+          <div class="post-like">
+                <i data-contenidopost="${post.isLike}" class='fa fa-thumbs-o-up : fa fa-thumbs-up' aria-hidden='true'></i>
             </div>
-            <div class="post-edition">
-            <i data-idpost="${post.buttonsEditionList} class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
-          </div>
-      </div>
+        </div>
+        <div class="post-right">
+            <div class="post-delete">
+                <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="post-edition">
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
+        </div>
+    </div>
+    
       `;
-      console.log(post.isLike);
       // crear evento para el boton
       posts = `${posts}${postHtml}`;
     });
@@ -165,42 +193,69 @@ export const Landing = () => {
         }
       });
     });
+
     const like = document.getElementsByClassName('postlike');
     like.value = posts;
     console.log(like, 'prueba');
-    like.addEventListener('click', (btn) => {
-      console.log(btn.target.value);
-      //const likeActual = event.target.value.post.like;
-      //console.log(likeActual);
-      //const arrayEmail = localStorage.email;
-      //const hasLike = likeActual.includes(arrayEmail);
-      //Utilizamos métodos de remove y union en Firebase. Importamos updatePostLike.
-      //if (hasLike) {
-      //  updateLike(event.target.value.id, 'remove');
-      //} else {
-      //  updateLike(event.target.value.id, 'union');
-      // }
+    // like.addEventListener('click', (btn) => {
+    //   console.log(btn.target.value);
+    // const likeActual = event.target.value.post.like;
+    // console.log(likeActual);
+    // const arrayEmail = localStorage.email;
+    // const hasLike = likeActual.includes(arrayEmail);
+    // Utilizamos métodos de remove y union en Firebase. Importamos updatePostLike.
+    // if (hasLike) {
+    //  updateLike(event.target.value.id, 'remove');
+    // } else {
+    //  updateLike(event.target.value.id, 'union');
+    // }
+    // });
+    const buttonsEditionList = landingDiv.querySelectorAll(
+      '.post-edition-button',
+    );
+    buttonsEditionList.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const idPost = event.target.dataset.idpost;
+        /* Se muestra un confirm dialog para confirmar la eliminacón */
+        // eslint-disable-next-line no-alert
+        const confMessage = window.confirm(
+          '¿Estás seguro que quieres editar el post?',
+        );
+        // Actualiza la función para editar el post y mostrar el modal con el contenido actual
+        function editarPost(contenido) {
+          const editModal = document.getElementById('editModal');
+          const editContent = document.getElementById('editContent');
+
+          // Colocamos el contenido actual del post en el textarea del modal
+          editContent.value = contenido;
+
+          // Mostramos el modal
+          editModal.style.display = 'block';
+          // Agregar un listener de click al botón de guardar cambios en el modal
+          const saveEditButton = document.getElementById('saveEditButton');
+          saveEditButton.addEventListener('click', () => {
+          // Obtener el nuevo contenido del post del textarea del modal
+            const nuevoContenido = document.getElementById('editContent').value;
+            console.log(nuevoContenido);
+            // Llamar a la función para actualizar el documento con el nuevo contenido
+            upDateDoc(idPost, nuevoContenido)
+              .then(() => {
+                // forzara a que se cierre el modal
+                alert(`Cambios guardados para el post con ID ${idPost}`);
+              })
+              .catch(() => {
+                alert(` Error Cambios guardados para el post con ID ${idPost}`);
+              });
+          });
+        }
+        /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+        if (confMessage) {
+          console.log(event.target);
+          editarPost('');
+          // upDateDoc(idPost, 'post actualizado');
+        }
+      });
     });
   });
-
-  const buttonsEditionList = landingDiv.querySelectorAll(
-    '.post-edition-button',
-  );
-  buttonsEditionList.forEach((button) => {
-    button.addEventListener('click', (event) => {
-      const idPost = event.target.dataset.idpost;
-      /* Se muestra un confirm dialog para confirmar la eliminacón */
-      // eslint-disable-next-line no-alert
-      const confMessage = window.confirm(
-        '¿Estás seguro que quieres editar el post?',
-      );
-
-      /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
-      if (confMessage) {
-        upDateDoc(idPost);
-      }
-    });
-  });
-
   return landingDiv;
 };
