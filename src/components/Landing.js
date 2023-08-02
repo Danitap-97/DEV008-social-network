@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import {
-  docRef, deletePost, onGetPosts, upDateDoc, updateLike,
+  docRef, deletePost, onGetPosts, upDateDoc,
 } from '../lib/firestore.js';
 
 import { auth } from '../lib/firebase.js';
@@ -84,6 +84,21 @@ export const Landing = () => {
     docRef(comment, currentDate, userName).then((resultado) => {
       console.log(resultado, 'al agregar');
     });
+
+    //         .then((userCredential) => {
+    //  Usuario registrado con éxito
+    //       const user = userCredential.user.document.createElement('p');
+    //       user.textContent = 'Registro Exitoso';
+    //       user.style.color = 'black';
+    //       console.log('Usuario registrado:', user);
+    //     })
+    //     .catch((error) => {
+    //       const errorCode = error.code;
+    //       const errorMessage = error.message;
+    //       console.error('Error al registrar el usuario:', errorCode, errorMessage);
+    //     });
+    // }
+    // Crear elementos para el nombre de usuario, la fecha y el comentario
   }
   publishButton.addEventListener('click', handlePublish);
 
@@ -94,30 +109,16 @@ export const Landing = () => {
   onGetPosts((postsSnapshot) => {
     /* Se obtiene los posts en tiempo real y se agregan a la lista postsLists */
     const postsList = [];
-    // se itera cada documento
     postsSnapshot.forEach((docu) => {
-      // creamos variables para almacenar todas las propiedades del documento
-      const postProperties = docu.data();
-      // obtenemos el correo electronico del usuario
-      const email = auth.currentUser.email;
-      // almacenamos los like de los post
-      // y usamos filter para filtrar los que coincidan con el correo del usuario
-      const miLike = postProperties.likes.filter((item) => item === email);
-      // creamos una comparacion para verificar si el post pertenece al usuario
-      const esMiPost = email === postProperties.nombre;
-      // agregamos nuevos objetos a postlist
-      postsList.push({
-        id: docu.id, ...postProperties, miLike, esMiPost,
-      });
+      postsList.push({ id: docu.id, ...docu.data() });
     });
-  });
-  /* Se crea variable para crear contenedor posts */
-  let contendorPosts = '';
-  /* Se recorre el listado de posts y se crean todos los posts sin un contenedor */
-  let posts = '';
-  postsList.forEach((post) => {
-    /* Se crea la estructura de cada post y se van agregando uno a uno al posts-container */
-    const postHtml = ` 
+    /* Se crea variable para crear contenedor posts */
+    let contendorPosts = '';
+    /* Se recorre el listado de posts y se crean todos los posts sin un contenedor */
+    let posts = '';
+    postsList.forEach((post) => {
+      /* Se crea la estructura de cada post y se van agregando uno a uno al posts-container */
+      const postHtml = ` 
       <div class="post">
         <div class="post-left">
         <div class="post-header">
@@ -134,83 +135,81 @@ export const Landing = () => {
           </div>
           </div>
           <div class="post-content">
-          ${post.contenido}
+            ${post.contenido}
           </div>
-          <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
-            <i data-idpost="${post.id}" class="fa fa-trash post-delete-button " aria-hidden="true"></i>
-          </div>
-        <div class="post-like">
-            <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
-            ${post.likes.length}
+          <div class="post-like">
+                <i data-contenidopost="${post.isLike}" class='fa fa-thumbs-o-up : fa fa-thumbs-up' aria-hidden='true'></i>
+            </div>
         </div>
-        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
-            <i data-idpost="${post.buttonsEditionList}" class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
+        <div class="post-right">
+            <div class="post-delete">
+                <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+            </div>
         </div>
-      </div>
+        <div class="post-edition">
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
+        </div>
+    </div>
+    
       `;
       // crear evento para el boton
-    posts = `${posts}${postHtml}`;
-  });
-
-  /* Se verifica si ya hay un post-container */
-  const contenedor = document.getElementById('posts-container');
-  if (contenedor) {
-    /* Si lo hay, se limpia y en ese mismo contenedor existente se agregan los posts */
-    contenedor.innerHTML = '';
-    contenedor.insertAdjacentHTML('beforeend', posts);
-  } else {
-    /* Si no hay un contenedor existe creamos uno nuevo */
-    /* Se crea el inicio del div posts-container en el que se agregaran todos los post */
-    contendorPosts = '<div id="posts-container" class="posts-container">';
-    /* Se llena el contenedor con los posts */
-    contendorPosts = `${contendorPosts}${posts}`;
-    /* Se cierra el div posts-container */
-    contendorPosts = `${contendorPosts}</div>`;
-    /* Se insertan todos los posts al landingDiv */
-    landingDiv.insertAdjacentHTML('beforeend', contendorPosts);
-  }
-
-  /* Se buscan todos los botones de eliminar y se le agrega la funcion de eliminar por su id */
-  const buttonsDeleteList = landingDiv.querySelectorAll(
-    '.post-delete-button',
-  );
-  buttonsDeleteList.forEach((buttonDelete) => {
-    buttonDelete.addEventListener('click', (event) => {
-      const idPost = event.target.dataset.idpost;
-      /* Se muestra un confirm dialog para confirmar la eliminacón */
-      // eslint-disable-next-line no-alert
-      const confMessage = window.confirm(
-        '¿Estás seguro que quieres eliminar el post?',
-      );
-
-      /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
-      if (confMessage) {
-        deletePost(idPost);
-      }
+      posts = `${posts}${postHtml}`;
     });
-  });
 
-  const buttonLikeList = landingDiv.querySelectorAll('.post-like-button');
-  buttonLikeList.forEach((buttonLike) => {
-    buttonLike.addEventListener('click', (event) => {
-      const idPost = event.target.dataset.idpost;
-      // en el objeto postsList se busca el objeto que sea igual a la variable idPost
-      const postSelected = postsList.find((post) => post.id === idPost);
-      if (postSelected) {
-        const email = auth.currentUser.email;
-        if (postSelected.miLike.length > 0) {
-          // si le di like anteriormente
-          const newLikes = postSelected.likes.filter((like) => like !== email);
-          updateLike(idPost, newLikes);
-        } else {
-          // si no le he dado like
-          const newLikes = postSelected.likes;
-          newLikes.push(email);
-          updateLike(idPost, newLikes);
+    /* Se verifica si ya hay un post-container */
+    const contenedor = document.getElementById('posts-container');
+    if (contenedor) {
+      /* Si lo hay, se limpia y en ese mismo contenedor existente se agregan los posts */
+      contenedor.innerHTML = '';
+      contenedor.insertAdjacentHTML('beforeend', posts);
+    } else {
+      /* Si no hay un contenedor existe creamos uno nuevo */
+      /* Se crea el inicio del div posts-container en el que se agregaran todos los post */
+      contendorPosts = '<div id="posts-container" class="posts-container">';
+      /* Se llena el contenedor con los posts */
+      contendorPosts = `${contendorPosts}${posts}`;
+      /* Se cierra el div posts-container */
+      contendorPosts = `${contendorPosts}</div>`;
+      /* Se insertan todos los posts al landingDiv */
+      landingDiv.insertAdjacentHTML('beforeend', contendorPosts);
+    }
+
+    /* Se buscan todos los botones de eliminar y se le agrega la funcion de eliminar por su id */
+    const buttonsDeleteList = landingDiv.querySelectorAll(
+      '.post-delete-button',
+    );
+    buttonsDeleteList.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const idPost = event.target.dataset.idpost;
+        /* Se muestra un confirm dialog para confirmar la eliminacón */
+        // eslint-disable-next-line no-alert
+        const confMessage = window.confirm(
+          '¿Estás seguro que quieres eliminar el post?',
+        );
+
+        /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+        if (confMessage) {
+          deletePost(idPost);
         }
-      }
+      });
     });
 
+    const like = document.getElementsByClassName('postlike');
+    like.value = posts;
+    console.log(like, 'prueba');
+    // like.addEventListener('click', (btn) => {
+    //   console.log(btn.target.value);
+    // const likeActual = event.target.value.post.like;
+    // console.log(likeActual);
+    // const arrayEmail = localStorage.email;
+    // const hasLike = likeActual.includes(arrayEmail);
+    // Utilizamos métodos de remove y union en Firebase. Importamos updatePostLike.
+    // if (hasLike) {
+    //  updateLike(event.target.value.id, 'remove');
+    // } else {
+    //  updateLike(event.target.value.id, 'union');
+    // }
+    // });
     const buttonsEditionList = landingDiv.querySelectorAll(
       '.post-edition-button',
     );
