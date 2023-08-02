@@ -62,6 +62,10 @@ export const Landing = () => {
           <textarea id="editContent"></textarea>
           <button data-id="" id="saveEditButton">Guardar cambios</button>
   </div>`;
+  modal.querySelector('.close').addEventListener('click', () => {
+    //  función para cerrar el modal
+    modal.style.display = 'none';
+  });
   landingDiv.appendChild(modal);
 
   const publishButton = document.createElement('button');
