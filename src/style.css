@@ -387,10 +387,13 @@ p {
   display: flex;
   flex-direction: column;
 }
-.post-right{
+.post-right {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.ocultar {
+  display: none;
 }
 
 /* Media query para tablet */
