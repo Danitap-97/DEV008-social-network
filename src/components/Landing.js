@@ -53,6 +53,16 @@ export const Landing = () => {
   textarea.placeholder = 'Escribe tu publicación aquí';
   textarea.classList.add('textarea-style');
   postDiv.appendChild(textarea);
+  const modal = document.createElement('div');
+  modal.id = 'editModal';
+  modal.classList.add('modal');
+  modal.innerHTML = `<!-- Agrega este modal al final de tu documento HTML, justo antes de </body> -->
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <textarea id="editContent"></textarea>
+          <button data-id="" id="saveEditButton">Guardar cambios</button>
+  </div>`;
+  landingDiv.appendChild(modal);
 
   const publishButton = document.createElement('button');
   publishButton.id = 'publishButton';
@@ -124,32 +134,19 @@ export const Landing = () => {
             ${post.contenido}
           </div>
           <div class="post-like">
-            <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
-          </div>
+                <i data-contenidopost="${post.isLike}" class='fa fa-thumbs-o-up : fa fa-thumbs-up' aria-hidden='true'></i>
+            </div>
         </div>
         <div class="post-right">
-          <div class="post-edition">
-            <i data-idpost=""${post.buttonsEditionList}" class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
-          </div>
-          <div class="post-delete">
-            <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
-          </div>
+            <div class="post-delete">
+                <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+            </div>
         </div>
-        <div class="post-like">
-        <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
+        <div class="post-edition">
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
         </div>
-            <div class="post-edition">
-            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
-          </div>
-          <!-- Agrega este modal al final de tu documento HTML, justo antes de </body> -->
-        <div id="editModal" class="modal">
-        <div class="modal-content">
-        <span class="close">&times;</span>
-        <textarea id="editContent"></textarea>
-        <button id="saveEditButton">Guardar cambios</button>
-      </div>
-</div>
-      </div>
+    </div>
+    
       `;
       // crear evento para el boton
       posts = `${posts}${postHtml}`;
@@ -178,7 +175,7 @@ export const Landing = () => {
       '.post-delete-button',
     );
     buttonsDeleteList.forEach((button) => {
-      button.asddEventListener('click', (event) => {
+      button.addEventListener('click', (event) => {
         const idPost = event.target.dataset.idpost;
         /* Se muestra un confirm dialog para confirmar la eliminacón */
         // eslint-disable-next-line no-alert
@@ -220,13 +217,6 @@ export const Landing = () => {
         const confMessage = window.confirm(
           '¿Estás seguro que quieres editar el post?',
         );
-
-        /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
-        if (confMessage) {
-          console.log(event.target);
-          upDateDoc(idPost, 'post actualizado');
-          console.log(upDateDoc);
-        }
         // Actualiza la función para editar el post y mostrar el modal con el contenido actual
         function editarPost(contenido) {
           const editModal = document.getElementById('editModal');
@@ -237,61 +227,29 @@ export const Landing = () => {
 
           // Mostramos el modal
           editModal.style.display = 'block';
-        }
-
-        // Obtener todos los botones de edición
-        const editButtons = document.querySelectorAll('.post-edition-button');
-
-        // Agregar un listener de click a cada botón de edición
-        editButtons.forEach((button) => {
-          button.addEventListener('click', () => {
-          // Obtener el contenido actual del post
-            const postId = button.getAttribute('data-idpost');
-            const postContent = button.getAttribute('data-content');
-
-            // Llamar a la función para editar el post con el contenido actual
-            editarPost(postContent);
-
-            // Agregar un listener de click al botón de guardar cambios en el modal
-            const saveEditButton = document.getElementById('saveEditButton');
-            saveEditButton.addEventListener('click', () => {
-            // Obtener el nuevo contenido del post del textarea del modal
-              const nuevoContenido = document.getElementById('editContent').value;
-
-              // Llamar a la función para guardar los cambios
-              function guardarCambios(postId, nuevoContenido) {
-                // Llamar a la función para actualizar el documento con el nuevo contenido
-                upDateDoc(postId, nuevoContenido)
-                  .then(() => {
-                    console.log(`Cambios guardados para el post con ID ${postId}`);
-                    const messageBox = document.getElementById('messageBox');
-                    messageBox.textContent = 'Cambios guardados correctamente';
-                    messageBox.classList.add('success-message');
-                    messageBox.style.display = 'block';
-                  })
-                  .catch(() => {
-                    const messageBox = document.getElementById('messageBox');
-                    messageBox.textContent = 'Error al guardar los cambios';
-                    messageBox.classList.add('error-message');
-                    messageBox.style.display = 'block';
-                  });
-              }
-              guardarCambios(postId, nuevoContenido);
-
-              // Cerrar el modal después de guardar los cambios
-              const editModal = document.getElementById('editModal');
-              editModal.style.display = 'none';
-            });
-            // Agregar un listener de click al botón de cerrar el modal
-            const closeButton = document.querySelector('.close');
-            closeButton.addEventListener('click', () => {
-            // Cerrar el modal sin guardar los cambios
-              const editModal = document.getElementById('editModal');
-              editModal.style.display = 'none';
-            });
+          // Agregar un listener de click al botón de guardar cambios en el modal
+          const saveEditButton = document.getElementById('saveEditButton');
+          saveEditButton.addEventListener('click', () => {
+          // Obtener el nuevo contenido del post del textarea del modal
+            const nuevoContenido = document.getElementById('editContent').value;
+            console.log(nuevoContenido);
+            // Llamar a la función para actualizar el documento con el nuevo contenido
+            upDateDoc(idPost, nuevoContenido)
+              .then(() => {
+                // forzara a que se cierre el modal
+                alert(`Cambios guardados para el post con ID ${idPost}`);
+              })
+              .catch(() => {
+                alert(` Error Cambios guardados para el post con ID ${idPost}`);
+              });
           });
-        });
-        upDateDoc(idPost);
+        }
+        /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
+        if (confMessage) {
+          console.log(event.target);
+          editarPost('');
+          // upDateDoc(idPost, 'post actualizado');
+        }
       });
     });
   });
