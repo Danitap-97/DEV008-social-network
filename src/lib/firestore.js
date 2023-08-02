@@ -25,7 +25,7 @@ export const deletePost = (idPost) => deleteDoc(doc(db, 'post', idPost));
 
 export const updateLike = (idPost, likes) => {
   const postSelected = doc(db, 'post', idPost);
-  // eslint-disable-next-line no-use-before-define
+
   return upDateDoc(postSelected, { likes });
 };
 
