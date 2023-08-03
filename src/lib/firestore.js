@@ -6,8 +6,9 @@ import {
   query,
   orderBy,
   onSnapshot,
-  updateDoc,
   setDoc,
+  limit,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -19,8 +20,8 @@ export const docRef = (contenido, fecha, nombre) => addDoc(collection(db, 'post'
 });
 
 /* Función que lista los posts y cuando se agrega un nuevo post se vuela a ejecutar */
-export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'), orderBy('fecha', 'desc')), callback);
-/* Función que elimina el post por id */
+export const onGetPosts = (callback) => onSnapshot(query(collection(db, 'post'), orderBy('fecha', 'desc'), limit(1000)), callback);
+
 export const deletePost = (idPost) => deleteDoc(doc(db, 'post', idPost));
 
 export const updateLike = (idPost, likes) => {

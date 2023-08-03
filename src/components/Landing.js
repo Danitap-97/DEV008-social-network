@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import {
   docRef, deletePost, onGetPosts, upDateDoc, updateLike,
 } from '../lib/firestore.js';
@@ -52,6 +53,20 @@ export const Landing = () => {
   textarea.placeholder = 'Escribe tu publicación aquí';
   textarea.classList.add('textarea-style');
   postDiv.appendChild(textarea);
+  const modal = document.createElement('div');
+  modal.id = 'editModal';
+  modal.classList.add('modal');
+  modal.innerHTML = `<!-- Agrega este modal al final de tu documento HTML, justo antes de </body> -->
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <textarea id="editContent"></textarea>
+          <button data-id="" id="saveEditButton">Guardar cambios</button>
+  </div>`;
+  modal.querySelector('.close').addEventListener('click', () => {
+    //  función para cerrar el modal
+    modal.style.display = 'none';
+  });
+  landingDiv.appendChild(modal);
 
   const publishButton = document.createElement('button');
   publishButton.id = 'publishButton';
@@ -94,7 +109,6 @@ export const Landing = () => {
   onGetPosts((postsSnapshot) => {
     /* Se obtiene los posts en tiempo real y se agregan a la lista postsLists */
     const postsList = [];
-    // se itera cada documento
     postsSnapshot.forEach((docu) => {
       // creamos variables para almacenar todas las propiedades del documento
       const postProperties = docu.data();
@@ -136,6 +150,7 @@ export const Landing = () => {
             ${post.contenido}
           </div>
           <div class="post-like">
+<<<<<<< HEAD
           <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
           </div>
         </div>
@@ -146,8 +161,22 @@ export const Landing = () => {
           <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
             <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
           </div>
+=======
+            <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
+            ${post.likes.length}
+          </div>
         </div>
-      </div>
+        <div class="post-right">
+            <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
+                <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+            </div>
+>>>>>>> 8e40a9f0614325591172dfa45615d7564e477e4f
+        </div>
+        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
+        </div>
+    </div>
+    
       `;
       // crear evento para el boton
       posts = `${posts}${postHtml}`;
@@ -175,8 +204,8 @@ export const Landing = () => {
     const buttonsDeleteList = landingDiv.querySelectorAll(
       '.post-delete-button',
     );
-    buttonsDeleteList.forEach((buttonDelete) => {
-      buttonDelete.addEventListener('click', (event) => {
+    buttonsDeleteList.forEach((button) => {
+      button.addEventListener('click', (event) => {
         const idPost = event.target.dataset.idpost;
         /* Se muestra un confirm dialog para confirmar la eliminacón */
         // eslint-disable-next-line no-alert
@@ -242,7 +271,7 @@ export const Landing = () => {
             // Llamar a la función para actualizar el documento con el nuevo contenido
             upDateDoc(idPost, nuevoContenido)
               .then(() => {
-              // forzara a que se cierre el modal
+                // forzara a que se cierre el modal
                 alert(`Cambios guardados para el post con ID ${idPost}`);
               })
               .catch(() => {
@@ -254,7 +283,7 @@ export const Landing = () => {
         if (confMessage) {
           console.log(event.target);
           editarPost('');
-        // upDateDoc(idPost, 'post actualizado');
+          // upDateDoc(idPost, 'post actualizado');
         }
       });
     });
