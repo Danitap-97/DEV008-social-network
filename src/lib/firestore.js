@@ -8,6 +8,7 @@ import {
   onSnapshot,
   setDoc,
   limit,
+  updateDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -25,8 +26,8 @@ export const deletePost = (idPost) => deleteDoc(doc(db, 'post', idPost));
 
 export const updateLike = (idPost, likes) => {
   const postSelected = doc(db, 'post', idPost);
-
-  return upDateDoc(postSelected, { likes });
+  // eslint-disable-next-line no-use-before-define
+  return updateDoc(postSelected, { likes });
 };
 
 export const upDateDoc = (idPost, nuevoContenido) => setDoc(doc(db, 'post', idPost), { contenido: nuevoContenido }, { merge: true });
