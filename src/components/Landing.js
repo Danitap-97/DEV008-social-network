@@ -155,12 +155,13 @@ export const Landing = () => {
           </div>
         </div>
         <div class="post-right">
+        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
+        </div>
+        
             <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
                 <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
             </div>
-        </div>
-        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
-            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
         </div>
     </div>
     
