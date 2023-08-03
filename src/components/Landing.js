@@ -150,31 +150,18 @@ export const Landing = () => {
             ${post.contenido}
           </div>
           <div class="post-like">
-<<<<<<< HEAD
-          <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
-          </div>
-        </div>
-        <div class="post-right">
-        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
-        <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
-          </div>
-          <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
-            <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
-          </div>
-=======
             <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
             ${post.likes.length}
           </div>
         </div>
         <div class="post-right">
-            <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
-                <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
-            </div>
->>>>>>> 8e40a9f0614325591172dfa45615d7564e477e4f
+             <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
+            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>       
         </div>
-        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
-            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
-        </div>
+        <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
+        <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
+    </div>
+    </div>
     </div>
     
       `;
