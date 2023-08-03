@@ -349,6 +349,9 @@ p {
   flex-direction: column;
   justify-content: space-between;
 }
+.ocultar {
+  display: none;
+}
 
 /* Media query para tablet */
 @media (min-width: 768px) {

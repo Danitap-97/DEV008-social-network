@@ -1,5 +1,5 @@
 import {
-  docRef, deletePost, onGetPosts, upDateDoc,
+  docRef, deletePost, onGetPosts, upDateDoc, updateLike,
 } from '../lib/firestore.js';
 
 import { auth } from '../lib/firebase.js';
@@ -94,8 +94,21 @@ export const Landing = () => {
   onGetPosts((postsSnapshot) => {
     /* Se obtiene los posts en tiempo real y se agregan a la lista postsLists */
     const postsList = [];
+    // se itera cada documento
     postsSnapshot.forEach((docu) => {
-      postsList.push({ id: docu.id, ...docu.data() });
+      // creamos variables para almacenar todas las propiedades del documento
+      const postProperties = docu.data();
+      // obtenemos el correo electronico del usuario
+      const email = auth.currentUser.email;
+      // almacenamos los like de los post
+      // y usamos filter para filtrar los que coincidan con el correo del usuario
+      const miLike = postProperties.likes.filter((item) => item === email);
+      // creamos una comparacion para verificar si el post pertenece al usuario
+      const esMiPost = email === postProperties.nombre;
+      // agregamos nuevos objetos a postlist
+      postsList.push({
+        id: docu.id, ...postProperties, miLike, esMiPost,
+      });
     });
     /* Se crea variable para crear contenedor posts */
     let contendorPosts = '';
@@ -123,14 +136,14 @@ export const Landing = () => {
             ${post.contenido}
           </div>
           <div class="post-like">
-            <i data-contenidopost= "${post.isLike} ?" class='fa fa-thumbs-o-up : fa fa-thumbs-up ' aria-hidden='true'></i>
+          <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
           </div>
         </div>
         <div class="post-right">
-          <div class="post-edition">
-            <i data-idpost=""${post.buttonsEditionList}" class="fa fa-pencil post-edition-button" aria-hidden="true"></i>
+        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
+        <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
           </div>
-          <div class="post-delete">
+          <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
             <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
           </div>
         </div>
@@ -162,8 +175,8 @@ export const Landing = () => {
     const buttonsDeleteList = landingDiv.querySelectorAll(
       '.post-delete-button',
     );
-    buttonsDeleteList.forEach((button) => {
-      button.asddEventListener('click', (event) => {
+    buttonsDeleteList.forEach((buttonDelete) => {
+      buttonDelete.addEventListener('click', (event) => {
         const idPost = event.target.dataset.idpost;
         /* Se muestra un confirm dialog para confirmar la eliminacón */
         // eslint-disable-next-line no-alert
@@ -178,6 +191,27 @@ export const Landing = () => {
       });
     });
 
+    const buttonLikeList = landingDiv.querySelectorAll('.post-like-button');
+    buttonLikeList.forEach((buttonLike) => {
+      buttonLike.addEventListener('click', (event) => {
+        const idPost = event.target.dataset.idpost;
+        // en el objeto postsList se busca el objeto que sea igual a la variable idPost
+        const postSelected = postsList.find((post) => post.id === idPost);
+        if (postSelected) {
+          const email = auth.currentUser.email;
+          if (postSelected.miLike.length > 0) {
+            // si le di like anteriormente
+            const newLikes = postSelected.likes.filter((like) => like !== email);
+            updateLike(idPost, newLikes);
+          } else {
+            // si no le he dado like
+            const newLikes = postSelected.likes;
+            newLikes.push(email);
+            updateLike(idPost, newLikes);
+          }
+        }
+      });
+    });
     const buttonsEditionList = landingDiv.querySelectorAll(
       '.post-edition-button',
     );
@@ -189,10 +223,38 @@ export const Landing = () => {
         const confMessage = window.confirm(
           '¿Estás seguro que quieres editar el post?',
         );
+        // Actualiza la función para editar el post y mostrar el modal con el contenido actual
+        function editarPost(contenido) {
+          const editModal = document.getElementById('editModal');
+          const editContent = document.getElementById('editContent');
 
+          // Colocamos el contenido actual del post en el textarea del modal
+          editContent.value = contenido;
+
+          // Mostramos el modal
+          editModal.style.display = 'block';
+          // Agregar un listener de click al botón de guardar cambios en el modal
+          const saveEditButton = document.getElementById('saveEditButton');
+          saveEditButton.addEventListener('click', () => {
+          // Obtener el nuevo contenido del post del textarea del modal
+            const nuevoContenido = document.getElementById('editContent').value;
+            console.log(nuevoContenido);
+            // Llamar a la función para actualizar el documento con el nuevo contenido
+            upDateDoc(idPost, nuevoContenido)
+              .then(() => {
+              // forzara a que se cierre el modal
+                alert(`Cambios guardados para el post con ID ${idPost}`);
+              })
+              .catch(() => {
+                alert(` Error Cambios guardados para el post con ID ${idPost}`);
+              });
+          });
+        }
         /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
         if (confMessage) {
-          upDateDoc(idPost);
+          console.log(event.target);
+          editarPost('');
+        // upDateDoc(idPost, 'post actualizado');
         }
       });
     });
