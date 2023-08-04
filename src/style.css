@@ -349,10 +349,12 @@ p {
 .posts-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 }
 
 .post {
+  width: 70%;
   border: 1px solid #979592;
   padding: 16px;
   display: flex;
