@@ -8,6 +8,8 @@
 * [4. Cómo comenzar](#4-Cómo-comenzar)
 * [5. Contribuciones](#5-Contribuciones)
 * [6. Prototypo](#6-Prototypo)
+
+### Logo
 <img src="https://firebasestorage.googleapis.com/v0/b/social-network-2-293be.appspot.com/o/Blue%20%26%20Yellow%20Minimal%20Travel%20Agency%20Free%20Logo.png?alt=media&token=cd186baa-c430-4feb-a010-e5cfa600dfdd"></img>
 
 ## 1. Bienvenida
