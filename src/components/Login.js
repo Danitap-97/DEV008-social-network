@@ -12,6 +12,7 @@ export const Login = (onNavigate) => {
   section.appendChild(titulo);
   const emailInput = document.createElement('input');
   emailInput.classList.add('controls');
+  emailInput.classList.add('inputs');
   emailInput.type = 'email';
   emailInput.placeholder = 'Correo electrónico';
   emailInput.addEventListener('input', () => {
@@ -21,6 +22,7 @@ export const Login = (onNavigate) => {
 
   const passwordInput = document.createElement('input');
   passwordInput.classList.add('controls');
+  passwordInput.classList.add('inputs');
   passwordInput.type = 'password';
   passwordInput.placeholder = 'Contraseña';
   passwordInput.setAttribute('maxlength', '16');

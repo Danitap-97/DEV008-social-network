@@ -11,6 +11,7 @@ export const Register = (onNavigate) => {
   titulo.textContent = 'Bienvenid@ al Registro';
   const nombres = document.createElement('input');
   nombres.classList.add('controls');
+  nombres.classList.add('inputs');
   nombres.placeholder = 'Ingresa su Nombre';
   section.appendChild(titulo);
   section.appendChild(nombres);
@@ -20,6 +21,7 @@ export const Register = (onNavigate) => {
 
   const correo = document.createElement('input');
   correo.classList.add('controls');
+  correo.classList.add('inputs');
   correo.placeholder = 'Ingresa correo';
   correo.addEventListener('input', () => {
     correo.value = correo.value.replace(/[A-Z]/g, '');
@@ -27,6 +29,7 @@ export const Register = (onNavigate) => {
   section.appendChild(correo);
   const password = document.createElement('input');
   password.classList.add('controls');
+  password.classList.add('inputs');
   password.type = 'password';
   password.placeholder = 'Ingresa Contraseña';
   password.setAttribute('maxlength', '16');
