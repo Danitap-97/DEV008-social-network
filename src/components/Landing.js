@@ -30,7 +30,6 @@ export const Landing = (onNavigate) => {
   usuarioIcono.classList.add('user-icon');
   usuarioIcono.src = 'https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png';
   navLeft.appendChild(usuarioIcono);
-  
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
   const textarea = document.createElement('textarea');
@@ -69,9 +68,7 @@ export const Landing = (onNavigate) => {
     const userName = auth.currentUser.email;
     const currentDate = new Date().toLocaleDateString();
 
-    docRef(comment, currentDate, userName).then((resultado) => {
-      console.log(resultado, 'al agregar');
-    });
+    docRef(comment, currentDate, userName).then((resultado) => resultado);
   }
   publishButton.addEventListener('click', handlePublish);
 
@@ -228,7 +225,6 @@ export const Landing = (onNavigate) => {
           saveEditButton.addEventListener('click', () => {
           // Obtener el nuevo contenido del post del textarea del modal
             const nuevoContenido = document.getElementById('editContent').value;
-            console.log(nuevoContenido);
             // Llamar a la función para actualizar el documento con el nuevo contenido
             upDateDoc(idPost, nuevoContenido)
               .then(() => {
@@ -242,7 +238,6 @@ export const Landing = (onNavigate) => {
         }
         /* Verificamos si el usuario acepto el mensaje y si lo acepto, eliminas el post por id */
         if (confMessage) {
-          console.log(event.target);
           editarPost('');
           // upDateDoc(idPost, 'post actualizado');
         }
