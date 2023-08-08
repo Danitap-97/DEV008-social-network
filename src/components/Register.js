@@ -1,56 +1,91 @@
-export const Register = (onNavigate) => {
-  const HomeDiv = document.createElement('div');
-  HomeDiv.textContent = 'Bienvenida al registro';
-  const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Regresar al Home';
-  buttonHome.addEventListener('click', () => onNavigate('/'));
-  HomeDiv.appendChild(buttonHome);
+import { loginGoogle, registrarUsuario } from '../lib/auth';
 
+export const Register = (onNavigate) => {
+  const HomeDiv = document.createElement('main');
+  HomeDiv.classList.add('register-main');
+  const registerDiv = document.createElement('div');
+  registerDiv.classList.add('register-div');
   const section = document.createElement('section');
-  section.classList.add('form-registers');
+  section.classList.add('form-register');
   const titulo = document.createElement('h4');
-  titulo.textContent = 'Formulario Registro';
+  titulo.textContent = 'Bienvenid@ al Registro';
   const nombres = document.createElement('input');
   nombres.classList.add('controls');
-  nombres.placeholder = 'Ingresar su Nombre';
+  nombres.classList.add('inputs');
+  nombres.placeholder = 'Ingresa su Nombre';
   section.appendChild(titulo);
   section.appendChild(nombres);
+  nombres.addEventListener('input', () => {
+    nombres.value = nombres.value.replace(/[0-9]/g, '');
+  });
 
-  const email = document.createElement('input');
-  email.classList.add('controls');
-  email.placeholder = 'Ingresar correo';
-  section.appendChild(email);
-
+  const correo = document.createElement('input');
+  correo.classList.add('controls');
+  correo.classList.add('inputs');
+  correo.placeholder = 'Ingresa correo';
+  correo.addEventListener('input', () => {
+    correo.value = correo.value.replace(/[A-Z]/g, '');
+  });
+  section.appendChild(correo);
   const password = document.createElement('input');
-  email.classList.add('controls');
-  email.placeholder = 'Ingresa Contraseña';
+  password.classList.add('controls');
+  password.classList.add('inputs');
+  password.type = 'password';
+  password.placeholder = 'Ingresa Contraseña';
+  password.setAttribute('maxlength', '16');
   section.appendChild(password);
 
-  const terminosYcondiciones = document.createElement('p');
-  terminosYcondiciones.textContent = 'Estoy de acuerdo con';
-  terminosYcondiciones.textContent = 'Terminos y condiciones';
+  const terminos = document.createElement('p');
+  terminos.textContent = 'Acepto términos y condiciones';
+  section.appendChild(terminos);
 
-  const enviarFormulario = document.createElement('input');
-  email.classList.add('botons');
-  email.value = 'Registrar';
-  section.appendChild(enviarFormulario);
-  HomeDiv.appendChild(section);
+  const buttonRegister = document.createElement('button');
+  buttonRegister.classList.add('controls');
+  buttonRegister.textContent = 'Registrarse';
+  buttonRegister.addEventListener('click', () => {
+    const nombreValue = nombres.value;
+    const correoValue = correo.value;
+    const passwordValue = password.value;
+    if (nombreValue && correoValue && passwordValue) {
+      registrarUsuario(correoValue, passwordValue)
+        .then((value) => {
+          console.log(value);
+          const registroExitoso = document.createElement('p');
+          registroExitoso.textContent = 'Registro Exitoso';
+          registroExitoso.style.color = 'black';
+          section.appendChild(registroExitoso);
+          onNavigate('/login');
+        })
+        .catch(() => {
+          const errorRegistro = document.createElement('p');
+          errorRegistro.textContent = 'Oh Error, correo ya registrado';
+          errorRegistro.style.color = 'white';
+          section.appendChild(errorRegistro);
+        });
+    } else {
+      const errorElement = document.createElement('p');
+      errorElement.textContent = 'Por favor, complete todos los campos';
+      errorElement.style.color = 'white';
+      section.appendChild(errorElement);
+    }
+  });
+  section.appendChild(buttonRegister);
+  const buttonGoogle = document.createElement('button');
+  buttonGoogle.setAttribute('id', 'google-signin-button');
+  buttonGoogle.addEventListener('click', () => {
+    loginGoogle().then(() => {
+      onNavigate('/landing');
+    });
+  });
+  buttonGoogle.innerHTML = '<img src=\'https://cdn-icons-png.flaticon.com/512/2702/2702602.png\' class="icono-google"> iniciar sesión con Google';
+  section.appendChild(buttonGoogle);
 
-  const cuenta = document.createElement('p');
-  cuenta.textContent = '¿ya tengo cuenta?';
+  const buttonHome = document.createElement('button');
+  buttonHome.classList.add('controls');
+  buttonHome.textContent = 'Regresar al Home';
+  buttonHome.addEventListener('click', () => onNavigate('/'));
+  section.appendChild(buttonHome);
+  HomeDiv.appendChild(registerDiv);
+  registerDiv.appendChild(section);
   return HomeDiv;
 };
-   /* <div>
-   {HomeDiv}
-   <section className="form-registers">
-     <h4>Formulario Registro</h4>
-     <input className="controls" type="text" name="nombres" id="nombres" placeholder="Ingresar su Nombre" />
-     <input className="controls" type="email" name="nombres" id="nombres" placeholder="Ingresar Correo" />
-     <input className="controls" type="password" name="nombres" id="nombres" placeholder="Ingresar Contraseña" />
-     <p>Estoy de acuerdo con<a href="#">Terminos y Condiciones</a></p>
-     <input className="botons" type="submit" value="registrar" />
-     <p><a href="#">¿Ya Tengo Cuenta?</a></p>
-   </section>
- </div>
-);*/
-
