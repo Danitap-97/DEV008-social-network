@@ -48,7 +48,7 @@ export const Landing = (onNavigate) => {
           <span class="close">&times;</span>
           <textarea id="editContent"></textarea>
           <button data-id="" id="saveEditButton">Guardar cambios</button>
-  </div>`;
+      </div>`;
   modal.querySelector('.close').addEventListener('click', () => {
     //  función para cerrar el modal
     modal.style.display = 'none';
