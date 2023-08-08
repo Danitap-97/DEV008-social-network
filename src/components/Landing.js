@@ -5,7 +5,7 @@ import {
 
 import { auth } from '../lib/firebase.js';
 
-export const Landing = () => {
+export const Landing = (onNavigate) => {
   const landingDiv = document.createElement('div');
   landingDiv.classList.add('landing-class');
   const header = document.createElement('header');
@@ -30,19 +30,7 @@ export const Landing = () => {
   usuarioIcono.classList.add('user-icon');
   usuarioIcono.src = 'https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png';
   navLeft.appendChild(usuarioIcono);
-
-  const buscarEnWeb = document.createElement('input');
-  buscarEnWeb.classList.add('search-box');
-  buscarEnWeb.type = 'text';
-  buscarEnWeb.id = 'search-input';
-  buscarEnWeb.placeholder = 'Buscar...';
-  navRight.appendChild(buscarEnWeb);
-
-  const botonBuscarUsuario = document.createElement('button');
-  botonBuscarUsuario.classList.add('botonBuscarUsuario');
-  botonBuscarUsuario.textContent = 'Buscar';
-  navRight.appendChild(botonBuscarUsuario);
-
+  
   const postDiv = document.createElement('div');
   postDiv.classList.add('post-class');
   const textarea = document.createElement('textarea');
@@ -84,21 +72,6 @@ export const Landing = () => {
     docRef(comment, currentDate, userName).then((resultado) => {
       console.log(resultado, 'al agregar');
     });
-
-    //         .then((userCredential) => {
-    //  Usuario registrado con éxito
-    //       const user = userCredential.user.document.createElement('p');
-    //       user.textContent = 'Registro Exitoso';
-    //       user.style.color = 'black';
-    //       console.log('Usuario registrado:', user);
-    //     })
-    //     .catch((error) => {
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //       console.error('Error al registrar el usuario:', errorCode, errorMessage);
-    //     });
-    // }
-    // Crear elementos para el nombre de usuario, la fecha y el comentario
   }
   publishButton.addEventListener('click', handlePublish);
 
@@ -150,18 +123,18 @@ export const Landing = () => {
             ${post.contenido}
           </div>
           <div class="post-like">
-            <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'black' : 'gray'}"></i>
+            <i data-idpost="${post.id}" class="fa fa-thumbs-up post-like-button" aria-hidden="true" style="color: ${post.miLike.length > 0 ? 'blue' : 'gray'}"></i>
             ${post.likes.length}
           </div>
         </div>
         <div class="post-right">
+        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
+        <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
+          </div>
             <div class="post-delete ${post.esMiPost ? '' : 'ocultar'}">
                 <i data-idpost="${post.id}" class="fa fa-trash post-delete-button" aria-hidden="true"></i>
             </div>
-        </div>
-        <div class="post-edition ${post.esMiPost ? '' : 'ocultar'}">
-            <i data-idpost="${post.id}" class="fa fa-pencil post-edition-button" click="guardarCambios('${post.contenido}')" aria-hidden="true"></i>
-        </div>
+           </div>
     </div>
     
       `;
@@ -276,5 +249,19 @@ export const Landing = () => {
       });
     });
   });
+  const footer = document.createElement('footer');
+  const buttonDiv = document.createElement('div');
+  buttonDiv.classList.add('div-button');
+  const salirAlHome = document.createElement('button');
+  salirAlHome.classList.add('button-salir');
+  salirAlHome.innerHTML = ` 
+  <i class="fa fa-sign-out" aria-hidden="true"></i>
+  `;
+  salirAlHome.addEventListener('click', () => onNavigate('/'));
+  if (landingDiv) {
+    footer.appendChild(buttonDiv);
+    buttonDiv.appendChild(salirAlHome);
+    landingDiv.appendChild(footer);
+  }
   return landingDiv;
 };

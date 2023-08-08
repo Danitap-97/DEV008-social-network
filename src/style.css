@@ -62,6 +62,9 @@ align-items: center;
   font-family: sans-serif;
   font-size: 18px;
 }
+.inputs {
+width: 94%;
+}
 .form-register p {
   height: 40px;
   text-align: center;
@@ -109,8 +112,8 @@ align-items: center;
   margin-right: 20px;
   border-radius: 10px;
   font-size: 16px;
-  background-color: transparent;
-  border: 1px solid #fff;
+  background-color: rgba(210, 201, 201, 0.533);
+  border:none;
   padding: 8px;
 }
 .button-somos{
@@ -213,25 +216,7 @@ header {
   float: right;
   width: 80px;
 }
-.search-box {
-  justify-content: left;
-}
-.search-box input {
-  justify-content: none;
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  margin-right: 10px; 
-}
-.botonBuscarUsuario {
-  background-color: #807a7a;
-  color: #ffffff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-}
+
 .section-landing {
   background-color: #fff;
   width: 150px;
@@ -252,7 +237,8 @@ header {
   background-color: #ffffff;
   padding: 10px;
   border-radius: 5px;
-}
+  width:80%; margin:0 auto;
+ }
 
 .textarea-style {
   /* Estilos para el textarea */
@@ -349,10 +335,12 @@ p {
 .posts-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 }
 
 .post {
+  width: 60%;
   border: 1px solid #979592;
   padding: 16px;
   display: flex;
@@ -395,6 +383,16 @@ p {
 .ocultar {
   display: none;
 }
+.div-button :hover{
+  background: #ef7e7e;
+}
+.button-salir {
+  width: 50px;
+  height: 30px;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
 
 /* Media query para tablet */
 @media (min-width: 768px) {
@@ -420,6 +418,23 @@ width: 100%;
   img {
     width: 100%;
   }
+}
+@media (max-width: 768px) {
+.nav-home {
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+ }
+  .button-container {
+  flex-direction: column;
+  align-items: center;
+}
+  .button-somos,
+  .button-register,
+  .button-login {
+  width: 100%;
+}
+
 }
 
 
